@@ -2,6 +2,7 @@
 {
     enum Commands
     {
+        HELP,
         QUIT,
         LOOK,
         NORTH,
