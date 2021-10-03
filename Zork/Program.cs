@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Zork
 {
@@ -7,6 +8,7 @@ namespace Zork
     {
         private static (int Column, int Row) Location = (1, 1);
         public static Room currentRoom // getting specific Room class instance data
+        
         {
             get
             {
@@ -17,14 +19,17 @@ namespace Zork
         static void Main(string[] args)
         {
 
-            Console.WriteLine("Welcome to Zork!\nEnter HELP for a list of commands.");
-            InitializeRoomDescriptions(); // call this function to ACTUALLY set the room descriptions!
+            const string defaultRoomsFile = "Rooms.txt"; // specify which file to pass for getting room data.
+            string roomsFile = (args.Length > 0 ? args[(int)CommandLineArguments.RoomsFilename] : defaultRoomsFile); // potentially remove later
+            //string roomsFile = Console.ReadLine();
+            InitializeRoomDescriptions(roomsFile); // pass a file into
             Room previousRoom = currentRoom;
+            Console.WriteLine("Welcome to Zork!\nEnter HELP for a list of commands.");
 
             Commands command = Commands.UNKNOWN; // assign command a value so it can run the initial comparison
             while (command != Commands.QUIT)
             {
-                Console.WriteLine(">");
+                Console.Write(">");
                 string inputString = Console.ReadLine();
 
                 command = ToCommand(inputString.Trim());
@@ -71,7 +76,7 @@ namespace Zork
 
             switch (command)
             {
-                case Commands.NORTH when Location.Column < (roomNames.Length / 3) - 1: // Diving by 3 to avoid going outside array's expected range
+                case Commands.NORTH when Location.Column < roomNames.GetLength(0) - 1: // Diving by 3 to avoid going outside array's expected range
                     Location.Column++;
                     didMove = true;
                     break;
@@ -80,7 +85,7 @@ namespace Zork
                     didMove = true;
                     break;
 
-                case Commands.EAST when Location.Row < (roomNames.Length / 3) - 1:
+                case Commands.EAST when Location.Row < roomNames.GetLength(1) - 1:
                     Location.Row++;
                     didMove = true;
                     break;
@@ -100,26 +105,35 @@ namespace Zork
             { new Room("Dense Woods(2,0)"), new Room("North of House(2,1)"), new Room("Clearing(2,2)") }
         };
 
-        private static void InitializeRoomDescriptions() /* Changed hard code variant over to an associative array. Now associates keys to values (names of rooms in this case).
-                                                            Requires 'using System.Collections.Generic' to function. */
+        private static void InitializeRoomDescriptions(string roomDescriptionsFile)
+        /* Changed hard code variant over to an associative array. Now associates keys to values (names of rooms in this case).
+           Requires 'using System.Collections.Generic' to function. */
         {
-            var roomMap = new Dictionary<string, Room>(); // NEW
+            var roomMap = new Dictionary<string, Room>();
             foreach (Room room in roomNames)
             {
-                roomMap[room.Name] = room; // NEW adds all your room names into the dictionary. The name of the room is the key and creates an entry of the reference of the Room object.
-            }                              // An alternative to this string of code would be: roomMap.Add(room.Name, room);
+                roomMap[room.Name] = room;
+            }
 
-            roomMap["Rocky Trail(0,0)"].Description = "You are on a rocky trail.";
-            roomMap["South of House(0,1)"].Description = "You are facing the south side of a white house. There is no door here, and all the windows are barred.";
-            roomMap["Canyon View(0,2)"].Description = "You are at the top of the great canyon on its south wall.";
+            string[] lines = File.ReadAllLines(roomDescriptionsFile); // requires using System.IO. Recieves an array.
+            foreach (string line in lines)
+            {
+                const string delimiter = "##";
+                const int expectedFieldCount = 2; // expect to see 2 fields (name and description)
 
-            roomMap["Forest(1,0)"].Description = "This is a forest, with trees in all directions around you.";
-            roomMap["West of House(1,1)"].Description = "This is an open field west of a white house, with a boarded front door.";
-            roomMap["Behind House(1,2)"].Description = "You are behind the white house. In one corner of the house there is a small window which is slightly ajar.";
+                string[] fields = line.Split(delimiter); //splits at delimiter. Names assigned to [0], descriptions [1]
 
-            roomMap["Dense Woods(2,0)"].Description = "This is a dimly lit forest, with large trees al around.\nTo the east, there appears to be sunlight.";
-            roomMap["North of House(2,1)"].Description = "You are facing the north side of a white house. There is no door here, and all the windows are barred.";
-            roomMap["Clearing(2,2)"].Description = "You are in a clearing, with a forest surrounding you on the west and south.";
+                if (fields.Length != expectedFieldCount) throw new InvalidDataException("Invalid room");
+
+                (string name, string description) = (fields[0], fields[1]); // touple for assignment per line
+                roomMap[name].Description = description; // assigning description pulled from file to room
+            }
         }
-    }
+
+            private enum CommandLineArguments
+        {
+            RoomsFilename = 0
+        }
+
+        }
 }

@@ -1,0 +1,9 @@
+﻿Rocky Trail(0,0)##There's rocks and pizza here.
+South of House(0,1)##You are facing the south side of a white house that is covered in moss.
+Canyon View(0,2)##You are looking into a great canyon filled with bears.
+Forest(1,0)##This is a forest and the trees look angry.
+West of House(1,1)##There's a man on the front porch of a white house. His house is on fire.
+Behind House(1,2)##You are behind the white house. There is a series of overflowing trashcans here.
+Dense Woods(2,0)##This is a dimly lit forest and you can see the Mad Hatter hosting his tea party nearby.
+North of House(2,1)##You are facing the north side of a white house. Looking at the house hurts your eyes from the light striking the white paint on it.
+Clearing(2,2)##You are in a clearing and you get the feeling that something is watching you from the trees on your west and south.
