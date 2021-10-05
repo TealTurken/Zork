@@ -1,23 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
+
 namespace Zork
 // Room class accessed via object-oriented programming
 {
 
-    public class Room
+    public class Room : IEquatable<Room>
     {
-        public string Name { get; } // allows outside programs to read this data
+        [JsonProperty(Order = 1)]
+        public string Name { get; private set; } // allows outside programs to read this data
 
-        public string Description { get; set; } // set allows outside program to write to this data. Assign name.
+        [JsonProperty(Order = 2)]
+        public string Description { get; private set; } // set allows outside program to write to this data. Assign name.
 
-        /* public Room pulls the room names and descriptions from Program.cs
-            and assigns them to each room and description here. 
-            */
-        public Room(string name, string description = "") // a Constructor. This process is run when you call on it in Program.cs
-                                                          // supplying description with a value or NULL here makes the description optional.
+        [JsonProperty(PropertyName = "Neighbors", Order = 3)]
+        private Dictionary<Directions, string> NeighborNames { get; set; }
+
+        [JsonIgnore]
+        public IReadOnlyDictionary<Directions, Room> Neighbors { get; private set; }
+
+        public static bool operator ==(Room lhs, Room rhs)
         {
-            Name = name;
-            Description = description;
+            if (ReferenceEquals(lhs, rhs)) return true;
+
+            if (lhs is null || rhs is null) return false;
+
+            return lhs.Name == rhs.Name;
         }
 
-        public override string ToString() => Name; // ensure you don't get Room.Zork when calling currentRoom in Program.cs
+        public static bool operator !=(Room lhs, Room rhs) => !(lhs == rhs);
+
+        public override bool Equals(object obj) => obj is Room room ? this == room : false;
+
+        public bool Equals(Room other) => this == other;
+
+        public override string ToString() => Name;
+        public override int GetHashCode() => Name.GetHashCode();
+
+        public void UpdateNeighbors(World world) => Neighbors = (from entry in NeighborNames
+                                                                 let room = world.RoomsByName.GetValueOrDefault(entry.Value)
+                                                                 where room != null
+                                                                 select (Direction: entry.Key, Room: room))
+                                                                 .ToDictionary(pair => pair.Direction, pair => pair.Room);
     }
 }

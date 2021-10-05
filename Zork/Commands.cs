@@ -5,10 +5,18 @@
         HELP,
         QUIT,
         LOOK,
+        UNKNOWN,
         NORTH,
         SOUTH,
         EAST,
-        WEST,
-        UNKNOWN
+        WEST
+    }
+
+    public enum Directions
+    {
+        NORTH,
+        SOUTH,
+        EAST,
+        WEST
     }
 }
