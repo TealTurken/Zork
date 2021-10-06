@@ -37,5 +37,11 @@ namespace Zork
 
             return isValidMove;
         }
+
+        [JsonIgnore]
+        public int Score;
+
+        [JsonIgnore]
+        public int Moves;
     }
 }

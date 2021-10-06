@@ -3,6 +3,8 @@
     enum Commands
     {
         HELP,
+        SCORE,
+        REWARD,
         QUIT,
         LOOK,
         UNKNOWN,

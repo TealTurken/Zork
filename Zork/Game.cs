@@ -45,15 +45,18 @@ namespace Zork
                 switch (command)
                 {
                     case Commands.HELP:
-                        Console.WriteLine("-Enter NORTH, SOUTH, EAST or WEST to navigate the world.\n-Enter LOOK to examine the area you are in.\n-Enter QUIT to quit the game.");
+                        Console.WriteLine("-Enter NORTH, SOUTH, EAST or WEST to navigate the world.\n-Enter LOOK to examine the area you are in.\n-Enter QUIT to quit the game.\n-Enter SCORE to see your points and REWARD to add 1 point.");
+                        Player.Moves++;
                         break;
                     case Commands.QUIT:
                         Console.WriteLine("Thank you for playing!");
+                        Player.Moves++;
                         IsRunning = false;
                         break;
                     case Commands.LOOK:
                         Console.WriteLine(Player.Location);
                         Console.WriteLine(Player.Location.Description);
+                        Player.Moves++;
                         break;
 
                     case Commands.NORTH:
@@ -63,6 +66,18 @@ namespace Zork
                         Directions direction = Enum.Parse<Directions>(command.ToString(), true);
                         if (Player.Move(direction) == false) Console.WriteLine("The way is shut!");
                         else Console.WriteLine(Player.Location);
+                        Player.Moves++;
+                        break;
+
+                    case Commands.REWARD:
+                        Console.WriteLine("+1 SCORE added.");
+                        Player.Score++;
+                        Player.Moves++;
+                        break;
+
+                    case Commands.SCORE:
+                        Player.Moves++;
+                        Console.WriteLine($"Your score is {Player.Score} points in {Player.Moves} move(s).");
                         break;
 
                     default:
