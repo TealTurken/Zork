@@ -6,6 +6,8 @@ namespace Zork
 {
     public class Game
     {
+        // To deserialize the World object in Zork.json, you need a class with a Public Property named World.
+        // This will convert JSON data into a Game class instance. The World object has attributes that need to be deserialized as well, so you need a World class to create a World class instance.
         public World World { get; private set; }
 
         [JsonIgnore]
@@ -87,10 +89,11 @@ namespace Zork
             }
         }
 
+        // Invoke the Load method from Program.cs
         public static Game Load(string fileName)
         {
             Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(fileName));
-            game.Player = game.World.SpawnPlayer();
+            game.Player = game.World.SpawnPlayer(); // Spawn player after game file has deserialized, hence all required data is now present.
             return game;
         }
 

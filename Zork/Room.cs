@@ -15,9 +15,11 @@ namespace Zork
         [JsonProperty(Order = 2)]
         public string Description { get; private set; } // set allows outside program to write to this data. Assign name.
 
+        // should be mapped to the JSON attribute name "Neighbors". In this way, we can provide alternative names to map between JSON objects/attributes and C# data types. 
         [JsonProperty(PropertyName = "Neighbors", Order = 3)]
         private Dictionary<Directions, string> NeighborNames { get; set; }
 
+        // This asks if there is a neighbor to the current room in the asked direction.
         [JsonIgnore]
         public IReadOnlyDictionary<Directions, Room> Neighbors { get; private set; }
 
