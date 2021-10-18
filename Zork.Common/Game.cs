@@ -65,7 +65,7 @@ namespace Zork
                     case Commands.SOUTH:
                     case Commands.EAST:
                     case Commands.WEST:
-                        Directions direction = Enum.Parse<Directions>(command.ToString(), true);
+                        Directions direction = (Directions)command;
                         if (Player.Move(direction) == false) Console.WriteLine("The way is shut!");
                         else Console.WriteLine(Player.Location);
                         Player.Moves++;

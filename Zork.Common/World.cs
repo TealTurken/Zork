@@ -14,7 +14,7 @@ namespace Zork
 
         // Expose the dictionary of rooms publicly created on line 21
         [JsonIgnore]
-        public IReadOnlyDictionary<string, Room> RoomsByName => mRoomsByName;
+        public Dictionary<string, Room> RoomsByName => mRoomsByName;
 
         public Player SpawnPlayer() => new Player(this, StartingLocation);
         
