@@ -1,0 +1,29 @@
+{
+    "Items": [
+        {
+            "Name": "",
+            "Description": "",
+            "Can Take": "",
+            "IsContainer": {
+                "Capacity": "",
+                "Start Open": "",
+                "Cotains": [
+
+                ]
+            },
+            "Limited Uses": {
+                "#of": "",
+                "New Item on Use": {
+                    "Item": ""
+                }
+            },
+            "Used On": [
+
+            ] ,
+            "Award Points": {
+                "#of": "",
+                "Award On": ""
+            } 
+        }
+    ]
+}
