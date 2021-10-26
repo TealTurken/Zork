@@ -1,9 +1,4 @@
 .vs
-Zork/bin
-Zork/obj
+*bin
+*obj
 .editorconfig
-Zork.Common/bin
-Zork.Common/obj
-Zork.Builder/bin
-Zork.Builder/obj
-PictureViewer
