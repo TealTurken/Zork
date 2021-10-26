@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Zork.Common;
 
-namespace Zork
+namespace Zork.Common
 // Room class accessed via object-oriented programming
 {
 

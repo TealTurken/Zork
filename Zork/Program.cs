@@ -1,4 +1,5 @@
 ﻿using System;
+using Zork.Common;
 
 namespace Zork
 {
@@ -6,7 +7,7 @@ namespace Zork
     {
         static void Main(string[] args)
         {
-            const string defaultGameFile = "Zork.json";
+            const string defaultGameFile = "World.json";
             string gameFile = (args.Length > 0 ? args[(int)CommandLineArguments.gameFile] : defaultGameFile);
 
             Game game = Game.Load(gameFile);

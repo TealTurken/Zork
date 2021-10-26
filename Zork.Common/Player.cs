@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using Zork.Common;
+﻿using Newtonsoft.Json;
 
-namespace Zork
+namespace Zork.Common
 {
     public class Player
     {
