@@ -9,10 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zork.Common", "Zork.Common\Zork.Common.csproj", "{2F218F1B-35DE-4820-BF9C-579CF45A8300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zork.Builder", "..\..\..\source\repos\PictureViewer\PictureViewer\Zork.Builder.csproj", "{619DAAF5-B037-4B88-893F-3838C28082F5}"
-	ProjectSection(ProjectDependencies) = postProject
-		{2F218F1B-35DE-4820-BF9C-579CF45A8300} = {2F218F1B-35DE-4820-BF9C-579CF45A8300}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zork.Builder", "PictureViewer\PictureViewer\Zork.Builder.csproj", "{619DAAF5-B037-4B88-893F-3838C28082F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
