@@ -90,9 +90,9 @@ namespace Zork.Common
         }
 
         // Invoke the Load method from Program.cs
-        public static Game Load(string fileName)
+        public static Game Load(string gameFile)
         {
-            Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(fileName));
+            Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(gameFile));
             game.Player = game.World.SpawnPlayer(); // Spawn player after game file has deserialized, hence all required data is now present.
             return game;
         }
