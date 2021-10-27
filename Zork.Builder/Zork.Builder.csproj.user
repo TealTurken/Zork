@@ -4,13 +4,10 @@
     <Compile Update="Forms\Game_Screen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\Items.cs">
+    <Compile Update="Forms\ItemsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\StartUp.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\World.cs">
+    <Compile Update="Forms\RoomsForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

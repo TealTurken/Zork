@@ -7,7 +7,7 @@ namespace Zork
     {
         static void Main(string[] args)
         {
-            const string defaultGameFile = "World.json";
+            const string defaultGameFile = "Game.json";
             string gameFile = (args.Length > 0 ? args[(int)CommandLineArguments.gameFile] : defaultGameFile);
 
             Game game = Game.Load(gameFile);

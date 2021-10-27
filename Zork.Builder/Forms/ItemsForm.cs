@@ -2,9 +2,9 @@
 
 namespace ZorkBuilder
 {
-    public partial class Items : Form
+    public partial class ItemsForm : Form
     {
-        public Items()
+        public ItemsForm()
         {
             InitializeComponent();
         }

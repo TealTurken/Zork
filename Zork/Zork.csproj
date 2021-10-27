@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="World.json">
+    <None Update="Game.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

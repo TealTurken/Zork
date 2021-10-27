@@ -10,7 +10,7 @@ namespace Zork.Common
         // A Hashset is like a dictionary of keys with no values. The keys here are Room objects.
         // Hashset constrains the collection so that it won't allow more than 1 room of the same name. 
         // This is fully accomplished by overriding the GetHashValue method in the Room class, Room.cs line 40
-        public HashSet<Room> Rooms { get; set; }
+        public List<Room> Rooms { get; set; }
 
         // Expose the dictionary of rooms publicly created on line 21
         [JsonIgnore]

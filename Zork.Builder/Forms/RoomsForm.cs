@@ -5,11 +5,15 @@ using Zork.Common;
 
 namespace Zork.Builder
 {
-    public partial class World : Form
+    public partial class RoomsForm : Form
     {
-        public World()
+
+        internal WorldViewModel viewModel { get; private set; }
+
+        public RoomsForm()
         {
             InitializeComponent();
+            viewModel = new WorldViewModel();
         }
 
         public IList<Room> rooms { get; internal set; }

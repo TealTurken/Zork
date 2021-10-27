@@ -1,7 +1,7 @@
 ﻿
 namespace Zork.Builder
 {
-    partial class World
+    partial class RoomsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -99,6 +99,7 @@ namespace Zork.Builder
             // 
             // Rooms
             // 
+            this.Rooms.DisplayMember = "Description";
             this.Rooms.FormattingEnabled = true;
             this.Rooms.ItemHeight = 15;
             this.Rooms.Location = new System.Drawing.Point(8, 12);
@@ -354,7 +355,7 @@ namespace Zork.Builder
             this.itemsTabPage.Text = "Items";
             this.itemsTabPage.UseVisualStyleBackColor = true;
             // 
-            // World
+            // RoomsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -365,10 +366,10 @@ namespace Zork.Builder
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "World";
+            this.Name = "RoomsForm";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Zork Builder";
             this.roomsBox.ResumeLayout(false);
             this.roomDataGroupBox.ResumeLayout(false);
             this.roomDataGroupBox.PerformLayout();
