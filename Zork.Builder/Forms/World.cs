@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Zork.Common;
 
-namespace ZorkBuilder
+namespace Zork.Builder
 {
     public partial class World : Form
     {
