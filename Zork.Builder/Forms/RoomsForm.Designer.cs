@@ -1,7 +1,7 @@
 ﻿
 namespace Zork.Builder
 {
-    partial class RoomsForm
+    partial class RoomsWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -29,386 +29,282 @@ namespace Zork.Builder
         /// </summary>
         private void InitializeComponent()
         {
-            this.roomsBox = new System.Windows.Forms.GroupBox();
-            this.Delete = new System.Windows.Forms.Button();
-            this.AddRoomButton = new System.Windows.Forms.Button();
-            this.Rooms = new System.Windows.Forms.ListBox();
-            this.roomDataGroupBox = new System.Windows.Forms.GroupBox();
-            this.Save = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.MenuStrip menuStripMain;
+            System.Windows.Forms.GroupBox roomsBox;
+            this.menuFileButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuNewButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuOpenButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuExitButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteRoomButton = new System.Windows.Forms.Button();
+            this.addRoomButton = new System.Windows.Forms.Button();
+            this.roomsList = new System.Windows.Forms.ListBox();
+            this.roomsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.gameViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.roomPropertiesBox = new System.Windows.Forms.GroupBox();
+            this.roomPropertiesTabs = new System.Windows.Forms.TabControl();
+            this.neighborsTab = new System.Windows.Forms.TabPage();
+            this.roomItemsTab = new System.Windows.Forms.TabPage();
+            this.roomDescriptionTextBox = new System.Windows.Forms.TextBox();
             this.roomDescriptionLabel = new System.Windows.Forms.Label();
-            this.roomDescriptionBox = new System.Windows.Forms.TextBox();
-            this.roomNameBox = new System.Windows.Forms.TextBox();
-            this.roomNameLabel = new System.Windows.Forms.Label();
-            this.startLocationCheck = new System.Windows.Forms.CheckBox();
-            this.itemsListView = new System.Windows.Forms.ListView();
-            this.worldTab = new System.Windows.Forms.TabControl();
-            this.neighborsTabPage = new System.Windows.Forms.TabPage();
-            this.upLabel = new System.Windows.Forms.Label();
-            this.upComboBox = new System.Windows.Forms.ComboBox();
-            this.downLabel = new System.Windows.Forms.Label();
-            this.downComboBox = new System.Windows.Forms.ComboBox();
-            this.westLabel = new System.Windows.Forms.Label();
-            this.westComboBox = new System.Windows.Forms.ComboBox();
-            this.eastLabel = new System.Windows.Forms.Label();
-            this.eastComboBox = new System.Windows.Forms.ComboBox();
-            this.southLabel = new System.Windows.Forms.Label();
-            this.southComboBox = new System.Windows.Forms.ComboBox();
-            this.northLabel = new System.Windows.Forms.Label();
-            this.northComboBox = new System.Windows.Forms.ComboBox();
-            this.itemsTabPage = new System.Windows.Forms.TabPage();
-            this.roomsBox.SuspendLayout();
-            this.roomDataGroupBox.SuspendLayout();
-            this.worldTab.SuspendLayout();
-            this.neighborsTabPage.SuspendLayout();
-            this.itemsTabPage.SuspendLayout();
+            this.roomNameText = new System.Windows.Forms.TextBox();
+            this.roomLabel = new System.Windows.Forms.Label();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            menuStripMain = new System.Windows.Forms.MenuStrip();
+            roomsBox = new System.Windows.Forms.GroupBox();
+            menuStripMain.SuspendLayout();
+            roomsBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.roomsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gameViewModelBindingSource)).BeginInit();
+            this.roomPropertiesBox.SuspendLayout();
+            this.roomPropertiesTabs.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // menuStripMain
+            // 
+            menuStripMain.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            menuStripMain.ImageScalingSize = new System.Drawing.Size(24, 24);
+            menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuFileButton});
+            menuStripMain.Location = new System.Drawing.Point(0, 0);
+            menuStripMain.Name = "menuStripMain";
+            menuStripMain.Padding = new System.Windows.Forms.Padding(0);
+            menuStripMain.Size = new System.Drawing.Size(834, 29);
+            menuStripMain.TabIndex = 0;
+            // 
+            // menuFileButton
+            // 
+            this.menuFileButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuNewButton,
+            this.menuOpenButton,
+            this.toolStripMenuItem4,
+            this.menuExitButton});
+            this.menuFileButton.Name = "menuFileButton";
+            this.menuFileButton.Size = new System.Drawing.Size(54, 29);
+            this.menuFileButton.Text = "&File";
+            // 
+            // menuNewButton
+            // 
+            this.menuNewButton.Name = "menuNewButton";
+            this.menuNewButton.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.menuNewButton.Size = new System.Drawing.Size(223, 34);
+            this.menuNewButton.Text = "New";
+            // 
+            // menuOpenButton
+            // 
+            this.menuOpenButton.Name = "menuOpenButton";
+            this.menuOpenButton.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.menuOpenButton.Size = new System.Drawing.Size(223, 34);
+            this.menuOpenButton.Text = "Open";
+            this.menuOpenButton.Click += new System.EventHandler(this.menuOpenButton_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(220, 6);
+            // 
+            // menuExitButton
+            // 
+            this.menuExitButton.Name = "menuExitButton";
+            this.menuExitButton.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.menuExitButton.Size = new System.Drawing.Size(223, 34);
+            this.menuExitButton.Text = "E&xit";
+            this.menuExitButton.Click += new System.EventHandler(this.menuExitButton_Click);
             // 
             // roomsBox
             // 
-            this.roomsBox.Controls.Add(this.Delete);
-            this.roomsBox.Controls.Add(this.AddRoomButton);
-            this.roomsBox.Controls.Add(this.Rooms);
-            this.roomsBox.Location = new System.Drawing.Point(2, 5);
-            this.roomsBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.roomsBox.Name = "roomsBox";
-            this.roomsBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.roomsBox.Size = new System.Drawing.Size(206, 374);
-            this.roomsBox.TabIndex = 3;
-            this.roomsBox.TabStop = false;
+            roomsBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            roomsBox.Controls.Add(this.deleteRoomButton);
+            roomsBox.Controls.Add(this.addRoomButton);
+            roomsBox.Controls.Add(this.roomsList);
+            roomsBox.Location = new System.Drawing.Point(16, 39);
+            roomsBox.Name = "roomsBox";
+            roomsBox.Size = new System.Drawing.Size(170, 437);
+            roomsBox.TabIndex = 1;
+            roomsBox.TabStop = false;
             // 
-            // Delete
+            // deleteRoomButton
             // 
-            this.Delete.Location = new System.Drawing.Point(107, 338);
-            this.Delete.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Delete.Name = "Delete";
-            this.Delete.Size = new System.Drawing.Size(88, 27);
-            this.Delete.TabIndex = 5;
-            this.Delete.Text = "Delete";
-            this.Delete.UseVisualStyleBackColor = true;
+            this.deleteRoomButton.Location = new System.Drawing.Point(87, 388);
+            this.deleteRoomButton.Name = "deleteRoomButton";
+            this.deleteRoomButton.Size = new System.Drawing.Size(75, 38);
+            this.deleteRoomButton.TabIndex = 2;
+            this.deleteRoomButton.Text = "Delete";
+            this.deleteRoomButton.UseVisualStyleBackColor = true;
+            this.deleteRoomButton.Click += new System.EventHandler(this.DeleteRoomButton_Click);
             // 
-            // AddRoomButton
+            // addRoomButton
             // 
-            this.AddRoomButton.Location = new System.Drawing.Point(8, 338);
-            this.AddRoomButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.AddRoomButton.Name = "AddRoomButton";
-            this.AddRoomButton.Size = new System.Drawing.Size(88, 27);
-            this.AddRoomButton.TabIndex = 4;
-            this.AddRoomButton.Text = "Add";
-            this.AddRoomButton.UseVisualStyleBackColor = true;
-            this.AddRoomButton.Click += new System.EventHandler(this.AddRoom_Click);
+            this.addRoomButton.Location = new System.Drawing.Point(6, 388);
+            this.addRoomButton.Name = "addRoomButton";
+            this.addRoomButton.Size = new System.Drawing.Size(75, 38);
+            this.addRoomButton.TabIndex = 1;
+            this.addRoomButton.Text = "Add";
+            this.addRoomButton.UseVisualStyleBackColor = true;
+            this.addRoomButton.Click += new System.EventHandler(this.AddRoomButton_Click);
             // 
-            // Rooms
+            // roomsList
             // 
-            this.Rooms.DisplayMember = "Description";
-            this.Rooms.FormattingEnabled = true;
-            this.Rooms.ItemHeight = 15;
-            this.Rooms.Location = new System.Drawing.Point(8, 12);
-            this.Rooms.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Rooms.Name = "Rooms";
-            this.Rooms.Size = new System.Drawing.Size(186, 319);
-            this.Rooms.TabIndex = 3;
-            this.Rooms.ValueMember = "Description";
+            this.roomsList.DataSource = this.roomsBindingSource;
+            this.roomsList.DisplayMember = "Name";
+            this.roomsList.FormattingEnabled = true;
+            this.roomsList.ItemHeight = 20;
+            this.roomsList.Location = new System.Drawing.Point(6, 15);
+            this.roomsList.Name = "roomsList";
+            this.roomsList.Size = new System.Drawing.Size(154, 364);
+            this.roomsList.TabIndex = 0;
+            this.roomsList.ValueMember = "Description";
             // 
-            // roomDataGroupBox
+            // roomsBindingSource
             // 
-            this.roomDataGroupBox.Controls.Add(this.Save);
-            this.roomDataGroupBox.Controls.Add(this.roomDescriptionLabel);
-            this.roomDataGroupBox.Controls.Add(this.roomDescriptionBox);
-            this.roomDataGroupBox.Controls.Add(this.roomNameBox);
-            this.roomDataGroupBox.Controls.Add(this.roomNameLabel);
-            this.roomDataGroupBox.Controls.Add(this.startLocationCheck);
-            this.roomDataGroupBox.Location = new System.Drawing.Point(216, 5);
-            this.roomDataGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.roomDataGroupBox.Name = "roomDataGroupBox";
-            this.roomDataGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.roomDataGroupBox.Size = new System.Drawing.Size(442, 374);
-            this.roomDataGroupBox.TabIndex = 4;
-            this.roomDataGroupBox.TabStop = false;
+            this.roomsBindingSource.DataMember = "Rooms";
+            this.roomsBindingSource.DataSource = this.gameViewModelBindingSource;
             // 
-            // Save
+            // gameViewModelBindingSource
             // 
-            this.Save.Location = new System.Drawing.Point(0, 82);
-            this.Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(88, 27);
-            this.Save.TabIndex = 40;
-            this.Save.Text = "Save";
-            this.Save.UseVisualStyleBackColor = true;
+            this.gameViewModelBindingSource.DataSource = typeof(Zork.Builder.ViewModels.GameViewModel);
+            // 
+            // roomPropertiesBox
+            // 
+            this.roomPropertiesBox.Controls.Add(this.roomPropertiesTabs);
+            this.roomPropertiesBox.Controls.Add(this.roomDescriptionTextBox);
+            this.roomPropertiesBox.Controls.Add(this.roomDescriptionLabel);
+            this.roomPropertiesBox.Controls.Add(this.roomNameText);
+            this.roomPropertiesBox.Controls.Add(this.roomLabel);
+            this.roomPropertiesBox.Location = new System.Drawing.Point(194, 39);
+            this.roomPropertiesBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.roomPropertiesBox.Name = "roomPropertiesBox";
+            this.roomPropertiesBox.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.roomPropertiesBox.Size = new System.Drawing.Size(622, 437);
+            this.roomPropertiesBox.TabIndex = 2;
+            this.roomPropertiesBox.TabStop = false;
+            // 
+            // roomPropertiesTabs
+            // 
+            this.roomPropertiesTabs.Controls.Add(this.neighborsTab);
+            this.roomPropertiesTabs.Controls.Add(this.roomItemsTab);
+            this.roomPropertiesTabs.Location = new System.Drawing.Point(14, 176);
+            this.roomPropertiesTabs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.roomPropertiesTabs.Name = "roomPropertiesTabs";
+            this.roomPropertiesTabs.SelectedIndex = 0;
+            this.roomPropertiesTabs.Size = new System.Drawing.Size(600, 240);
+            this.roomPropertiesTabs.TabIndex = 4;
+            // 
+            // neighborsTab
+            // 
+            this.neighborsTab.Location = new System.Drawing.Point(4, 29);
+            this.neighborsTab.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.neighborsTab.Name = "neighborsTab";
+            this.neighborsTab.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.neighborsTab.Size = new System.Drawing.Size(592, 207);
+            this.neighborsTab.TabIndex = 0;
+            this.neighborsTab.Text = "Neighbors";
+            this.neighborsTab.UseVisualStyleBackColor = true;
+            // 
+            // roomItemsTab
+            // 
+            this.roomItemsTab.Location = new System.Drawing.Point(4, 29);
+            this.roomItemsTab.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.roomItemsTab.Name = "roomItemsTab";
+            this.roomItemsTab.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.roomItemsTab.Size = new System.Drawing.Size(592, 207);
+            this.roomItemsTab.TabIndex = 1;
+            this.roomItemsTab.Text = "Items";
+            this.roomItemsTab.UseVisualStyleBackColor = true;
+            // 
+            // roomDescriptionTextBox
+            // 
+            this.roomDescriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.roomsBindingSource, "Description", true));
+            this.roomDescriptionTextBox.Location = new System.Drawing.Point(240, 45);
+            this.roomDescriptionTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.roomDescriptionTextBox.Multiline = true;
+            this.roomDescriptionTextBox.Name = "roomDescriptionTextBox";
+            this.roomDescriptionTextBox.Size = new System.Drawing.Size(374, 126);
+            this.roomDescriptionTextBox.TabIndex = 3;
             // 
             // roomDescriptionLabel
             // 
             this.roomDescriptionLabel.AutoSize = true;
-            this.roomDescriptionLabel.Location = new System.Drawing.Point(174, 9);
+            this.roomDescriptionLabel.Location = new System.Drawing.Point(240, 25);
             this.roomDescriptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.roomDescriptionLabel.Name = "roomDescriptionLabel";
-            this.roomDescriptionLabel.Size = new System.Drawing.Size(67, 15);
-            this.roomDescriptionLabel.TabIndex = 28;
+            this.roomDescriptionLabel.Size = new System.Drawing.Size(89, 20);
+            this.roomDescriptionLabel.TabIndex = 2;
             this.roomDescriptionLabel.Text = "Description";
             // 
-            // roomDescriptionBox
+            // roomNameText
             // 
-            this.roomDescriptionBox.Location = new System.Drawing.Point(177, 27);
-            this.roomDescriptionBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.roomDescriptionBox.Multiline = true;
-            this.roomDescriptionBox.Name = "roomDescriptionBox";
-            this.roomDescriptionBox.Size = new System.Drawing.Size(250, 81);
-            this.roomDescriptionBox.TabIndex = 27;
+            this.roomNameText.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.roomsBindingSource, "Name", true));
+            this.roomNameText.Location = new System.Drawing.Point(9, 45);
+            this.roomNameText.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.roomNameText.Name = "roomNameText";
+            this.roomNameText.Size = new System.Drawing.Size(220, 26);
+            this.roomNameText.TabIndex = 1;
+            this.roomNameText.Text = "room name";
             // 
-            // roomNameBox
+            // roomLabel
             // 
-            this.roomNameBox.Location = new System.Drawing.Point(7, 27);
-            this.roomNameBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.roomNameBox.Name = "roomNameBox";
-            this.roomNameBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.roomNameBox.Size = new System.Drawing.Size(163, 23);
-            this.roomNameBox.TabIndex = 25;
+            this.roomLabel.AutoSize = true;
+            this.roomLabel.Location = new System.Drawing.Point(9, 25);
+            this.roomLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.roomLabel.Name = "roomLabel";
+            this.roomLabel.Size = new System.Drawing.Size(51, 20);
+            this.roomLabel.TabIndex = 0;
+            this.roomLabel.Text = "Name";
             // 
-            // roomNameLabel
+            // openFileDialog
             // 
-            this.roomNameLabel.AutoSize = true;
-            this.roomNameLabel.Location = new System.Drawing.Point(4, 9);
-            this.roomNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.roomNameLabel.Name = "roomNameLabel";
-            this.roomNameLabel.Size = new System.Drawing.Size(39, 15);
-            this.roomNameLabel.TabIndex = 26;
-            this.roomNameLabel.Text = "Name";
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "JSON Files|*.json";
             // 
-            // startLocationCheck
+            // RoomsWindow
             // 
-            this.startLocationCheck.AutoSize = true;
-            this.startLocationCheck.Location = new System.Drawing.Point(5, 57);
-            this.startLocationCheck.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.startLocationCheck.Name = "startLocationCheck";
-            this.startLocationCheck.Size = new System.Drawing.Size(135, 19);
-            this.startLocationCheck.TabIndex = 24;
-            this.startLocationCheck.Text = "Can be start location";
-            this.startLocationCheck.UseVisualStyleBackColor = true;
-            // 
-            // itemsListView
-            // 
-            this.itemsListView.HideSelection = false;
-            this.itemsListView.Location = new System.Drawing.Point(6, 7);
-            this.itemsListView.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.itemsListView.Name = "itemsListView";
-            this.itemsListView.Size = new System.Drawing.Size(405, 175);
-            this.itemsListView.TabIndex = 39;
-            this.itemsListView.UseCompatibleStateImageBehavior = false;
-            this.itemsListView.View = System.Windows.Forms.View.List;
-            // 
-            // worldTab
-            // 
-            this.worldTab.Controls.Add(this.neighborsTabPage);
-            this.worldTab.Controls.Add(this.itemsTabPage);
-            this.worldTab.Location = new System.Drawing.Point(216, 120);
-            this.worldTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.worldTab.Name = "worldTab";
-            this.worldTab.SelectedIndex = 0;
-            this.worldTab.Size = new System.Drawing.Size(428, 249);
-            this.worldTab.TabIndex = 42;
-            // 
-            // neighborsTabPage
-            // 
-            this.neighborsTabPage.Controls.Add(this.upLabel);
-            this.neighborsTabPage.Controls.Add(this.upComboBox);
-            this.neighborsTabPage.Controls.Add(this.downLabel);
-            this.neighborsTabPage.Controls.Add(this.downComboBox);
-            this.neighborsTabPage.Controls.Add(this.westLabel);
-            this.neighborsTabPage.Controls.Add(this.westComboBox);
-            this.neighborsTabPage.Controls.Add(this.eastLabel);
-            this.neighborsTabPage.Controls.Add(this.eastComboBox);
-            this.neighborsTabPage.Controls.Add(this.southLabel);
-            this.neighborsTabPage.Controls.Add(this.southComboBox);
-            this.neighborsTabPage.Controls.Add(this.northLabel);
-            this.neighborsTabPage.Controls.Add(this.northComboBox);
-            this.neighborsTabPage.Location = new System.Drawing.Point(4, 24);
-            this.neighborsTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.neighborsTabPage.Name = "neighborsTabPage";
-            this.neighborsTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.neighborsTabPage.Size = new System.Drawing.Size(420, 221);
-            this.neighborsTabPage.TabIndex = 0;
-            this.neighborsTabPage.Text = "Neighbors";
-            this.neighborsTabPage.UseVisualStyleBackColor = true;
-            // 
-            // upLabel
-            // 
-            this.upLabel.AutoSize = true;
-            this.upLabel.Location = new System.Drawing.Point(197, 113);
-            this.upLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.upLabel.Name = "upLabel";
-            this.upLabel.Size = new System.Drawing.Size(22, 15);
-            this.upLabel.TabIndex = 50;
-            this.upLabel.Text = "Up";
-            // 
-            // upComboBox
-            // 
-            this.upComboBox.FormattingEnabled = true;
-            this.upComboBox.Location = new System.Drawing.Point(140, 132);
-            this.upComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.upComboBox.Name = "upComboBox";
-            this.upComboBox.Size = new System.Drawing.Size(140, 23);
-            this.upComboBox.TabIndex = 49;
-            // 
-            // downLabel
-            // 
-            this.downLabel.AutoSize = true;
-            this.downLabel.Location = new System.Drawing.Point(188, 159);
-            this.downLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.downLabel.Name = "downLabel";
-            this.downLabel.Size = new System.Drawing.Size(38, 15);
-            this.downLabel.TabIndex = 48;
-            this.downLabel.Text = "Down";
-            // 
-            // downComboBox
-            // 
-            this.downComboBox.FormattingEnabled = true;
-            this.downComboBox.Location = new System.Drawing.Point(140, 178);
-            this.downComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.downComboBox.Name = "downComboBox";
-            this.downComboBox.Size = new System.Drawing.Size(140, 23);
-            this.downComboBox.TabIndex = 47;
-            // 
-            // westLabel
-            // 
-            this.westLabel.AutoSize = true;
-            this.westLabel.Location = new System.Drawing.Point(52, 37);
-            this.westLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.westLabel.Name = "westLabel";
-            this.westLabel.Size = new System.Drawing.Size(33, 15);
-            this.westLabel.TabIndex = 46;
-            this.westLabel.Text = "West";
-            // 
-            // westComboBox
-            // 
-            this.westComboBox.FormattingEnabled = true;
-            this.westComboBox.Location = new System.Drawing.Point(7, 54);
-            this.westComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.westComboBox.Name = "westComboBox";
-            this.westComboBox.Size = new System.Drawing.Size(140, 23);
-            this.westComboBox.TabIndex = 45;
-            // 
-            // eastLabel
-            // 
-            this.eastLabel.AutoSize = true;
-            this.eastLabel.Location = new System.Drawing.Point(318, 37);
-            this.eastLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.eastLabel.Name = "eastLabel";
-            this.eastLabel.Size = new System.Drawing.Size(28, 15);
-            this.eastLabel.TabIndex = 44;
-            this.eastLabel.Text = "East";
-            // 
-            // eastComboBox
-            // 
-            this.eastComboBox.FormattingEnabled = true;
-            this.eastComboBox.Location = new System.Drawing.Point(271, 54);
-            this.eastComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.eastComboBox.Name = "eastComboBox";
-            this.eastComboBox.Size = new System.Drawing.Size(140, 23);
-            this.eastComboBox.TabIndex = 43;
-            // 
-            // southLabel
-            // 
-            this.southLabel.AutoSize = true;
-            this.southLabel.Location = new System.Drawing.Point(188, 67);
-            this.southLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.southLabel.Name = "southLabel";
-            this.southLabel.Size = new System.Drawing.Size(38, 15);
-            this.southLabel.TabIndex = 42;
-            this.southLabel.Text = "South";
-            // 
-            // southComboBox
-            // 
-            this.southComboBox.FormattingEnabled = true;
-            this.southComboBox.Location = new System.Drawing.Point(140, 85);
-            this.southComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.southComboBox.Name = "southComboBox";
-            this.southComboBox.Size = new System.Drawing.Size(140, 23);
-            this.southComboBox.TabIndex = 41;
-            // 
-            // northLabel
-            // 
-            this.northLabel.AutoSize = true;
-            this.northLabel.Location = new System.Drawing.Point(189, 5);
-            this.northLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.northLabel.Name = "northLabel";
-            this.northLabel.Size = new System.Drawing.Size(38, 15);
-            this.northLabel.TabIndex = 40;
-            this.northLabel.Text = "North";
-            // 
-            // northComboBox
-            // 
-            this.northComboBox.FormattingEnabled = true;
-            this.northComboBox.Location = new System.Drawing.Point(140, 23);
-            this.northComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.northComboBox.Name = "northComboBox";
-            this.northComboBox.Size = new System.Drawing.Size(140, 23);
-            this.northComboBox.TabIndex = 39;
-            // 
-            // itemsTabPage
-            // 
-            this.itemsTabPage.Controls.Add(this.itemsListView);
-            this.itemsTabPage.Location = new System.Drawing.Point(4, 24);
-            this.itemsTabPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.itemsTabPage.Name = "itemsTabPage";
-            this.itemsTabPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.itemsTabPage.Size = new System.Drawing.Size(420, 221);
-            this.itemsTabPage.TabIndex = 1;
-            this.itemsTabPage.Text = "Items";
-            this.itemsTabPage.UseVisualStyleBackColor = true;
-            // 
-            // RoomsForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(662, 381);
-            this.Controls.Add(this.worldTab);
-            this.Controls.Add(this.roomDataGroupBox);
-            this.Controls.Add(this.roomsBox);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.ClientSize = new System.Drawing.Size(834, 483);
+            this.Controls.Add(this.roomPropertiesBox);
+            this.Controls.Add(roomsBox);
+            this.Controls.Add(menuStripMain);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MainMenuStrip = menuStripMain;
             this.MaximizeBox = false;
-            this.Name = "RoomsForm";
-            this.ShowInTaskbar = false;
+            this.Name = "RoomsWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Zork Builder";
-            this.roomsBox.ResumeLayout(false);
-            this.roomDataGroupBox.ResumeLayout(false);
-            this.roomDataGroupBox.PerformLayout();
-            this.worldTab.ResumeLayout(false);
-            this.neighborsTabPage.ResumeLayout(false);
-            this.neighborsTabPage.PerformLayout();
-            this.itemsTabPage.ResumeLayout(false);
+            menuStripMain.ResumeLayout(false);
+            menuStripMain.PerformLayout();
+            roomsBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.roomsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gameViewModelBindingSource)).EndInit();
+            this.roomPropertiesBox.ResumeLayout(false);
+            this.roomPropertiesBox.PerformLayout();
+            this.roomPropertiesTabs.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox roomsBox;
-        private System.Windows.Forms.ListBox Rooms;
-        private System.Windows.Forms.Button Delete;
-        private System.Windows.Forms.Button AddRoomButton;
-        private System.Windows.Forms.GroupBox roomDataGroupBox;
-        private System.Windows.Forms.TabControl worldTab;
-        private System.Windows.Forms.TabPage neighborsTabPage;
-        private System.Windows.Forms.Label westLabel;
-        private System.Windows.Forms.ComboBox westComboBox;
-        private System.Windows.Forms.Label eastLabel;
-        private System.Windows.Forms.ComboBox eastComboBox;
-        private System.Windows.Forms.Label southLabel;
-        private System.Windows.Forms.ComboBox southComboBox;
-        private System.Windows.Forms.Label northLabel;
-        private System.Windows.Forms.ComboBox northComboBox;
-        private System.Windows.Forms.TabPage itemsTabPage;
-        private System.Windows.Forms.Button Save;
+        private System.Windows.Forms.ToolStripMenuItem menuFileButton;
+        private System.Windows.Forms.ToolStripMenuItem menuNewButton;
+        private System.Windows.Forms.ToolStripMenuItem menuOpenButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem menuExitButton;
+        private System.Windows.Forms.Button deleteRoomButton;
+        private System.Windows.Forms.Button addRoomButton;
+        private System.Windows.Forms.ListBox roomsList;
+        private System.Windows.Forms.GroupBox roomPropertiesBox;
+        private System.Windows.Forms.TextBox roomDescriptionTextBox;
         private System.Windows.Forms.Label roomDescriptionLabel;
-        private System.Windows.Forms.TextBox roomDescriptionBox;
-        private System.Windows.Forms.TextBox roomNameBox;
-        private System.Windows.Forms.Label roomNameLabel;
-        private System.Windows.Forms.CheckBox startLocationCheck;
-        private System.Windows.Forms.ListView itemsListView;
-        private System.Windows.Forms.Label upLabel;
-        private System.Windows.Forms.ComboBox upComboBox;
-        private System.Windows.Forms.Label downLabel;
-        private System.Windows.Forms.ComboBox downComboBox;
+        private System.Windows.Forms.TextBox roomNameText;
+        private System.Windows.Forms.Label roomLabel;
+        private System.Windows.Forms.TabControl roomPropertiesTabs;
+        private System.Windows.Forms.TabPage neighborsTab;
+        private System.Windows.Forms.TabPage roomItemsTab;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.BindingSource roomsBindingSource;
+        private System.Windows.Forms.BindingSource gameViewModelBindingSource;
     }
 }
+

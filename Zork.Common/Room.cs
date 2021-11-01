@@ -10,7 +10,8 @@ namespace Zork.Common
     public class Room : IEquatable<Room>
     {
         [JsonProperty(Order = 1)]
-        public string Name { get; private set; } // allows outside programs to read this data
+        public string Name { get;  set; } // allows outside programs to read this data
+                                          // THIS USED TO BE "private set"
 
         [JsonProperty(Order = 2)]
         public string Description { get; private set; } // set allows outside program to write to this data. Assign name.

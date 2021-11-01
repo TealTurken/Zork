@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace Zork.Common
 {
-    public class Game
+    public class Game : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        
         // To deserialize the World object in Zork.json, you need a class with a Public Property named World.
         // This will convert JSON data into a Game class instance. The World object has attributes that need to be deserialized as well, so you need a World class to create a World class instance.
         public World World { get; private set; }
@@ -21,6 +24,7 @@ namespace Zork.Common
             World = world;
             Player = player;
         }
+
 
 
         // --MAIN GAME--

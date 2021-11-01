@@ -2,11 +2,14 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace Zork.Common
 {
-    public class World
+    public class World : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         // A Hashset is like a dictionary of keys with no values. The keys here are Room objects.
         // Hashset constrains the collection so that it won't allow more than 1 room of the same name. 
         // This is fully accomplished by overriding the GetHashValue method in the Room class, Room.cs line 40
