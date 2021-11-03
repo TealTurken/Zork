@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Zork.Builder.ViewModels;
 using Zork.Common;
@@ -9,7 +10,6 @@ namespace Zork.Builder
 {
     public partial class RoomsWindow : Form
     {
-        int newRoomCount = 0;
         private bool IsGameLoaded
         {
             // This enables/disables controls relevant to whether the Game file is loaded or not.
@@ -24,6 +24,10 @@ namespace Zork.Builder
                 foreach (var control in _gameDependentControls)
                 {
                     control.Enabled = _viewModel.GameIsLoaded;
+                }
+                foreach (var menuControl in _gameDependentMenuItems)
+                {
+                    menuControl.Enabled = _viewModel.GameIsLoaded;
                 }
             }
         }
@@ -51,17 +55,73 @@ namespace Zork.Builder
                 deleteRoomButton,
                 roomNameText,
                 roomDescriptionTextBox,
+                roomPropertiesTabs,
+            };
+            _gameDependentMenuItems = new ToolStripMenuItem[]
+            {
+                menuSaveAsButton,
+                menuSaveButton,
             };
             
             IsGameLoaded = false;
         }
 
-        private void menuExitButton_Click(object sender, EventArgs e)
+
+        private GameViewModel _viewModel;
+        private Control[] _gameDependentControls;
+        private ToolStripMenuItem[] _gameDependentMenuItems;
+
+        private void RoomsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Close();
+            deleteRoomButton.Enabled = roomsList.SelectedItem != null;
         }
 
-        private void menuOpenButton_Click(object sender, EventArgs e)
+        private void DeleteRoomButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Delete this room?", "Zork Builder", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                ViewModel.Rooms.Remove((Room)roomsList.SelectedItem);
+                roomsList.SelectedItem = ViewModel.Rooms.LastOrDefault();
+            }
+        }
+        int newRoomCount = 0;
+        private void AddRoomButton_Click(object sender, EventArgs e)
+        {
+            Room room = new Room();
+            if (newRoomCount == 0) room.Name = "new room";
+            else room.Name = $"new room {newRoomCount}";
+            ViewModel.Rooms.Add(room);
+            roomsList.SelectedItem = ViewModel.Rooms.LastOrDefault();
+            newRoomCount++;
+        }
+
+        public string RoomName
+        {
+            get => roomNameText.Text;
+            set => roomNameText.Text = value;
+        }
+        private void RoomNameText_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(roomNameText.Text))
+            {
+            }
+        }
+
+        #region Tool Strip Menu
+        private void MenuSaveButton_Click(object sender, EventArgs e)
+        {
+            string filename = "Save Test Game.json";
+            ViewModel.SaveGame(filename);
+        }
+
+        private void MenuSaveAsButton_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ViewModel.SaveGame(saveFileDialog.FileName);
+            }    
+        }
+        private void MenuOpenButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
                 try
@@ -77,21 +137,11 @@ namespace Zork.Builder
                     MessageBox.Show(ex.Message, "Zork Builder", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
         }
-        private GameViewModel _viewModel;
-        private Control[] _gameDependentControls;
-        private ToolStripMenuItem[] _gameDependentMenuItems;
-
-        private void AddRoomButton_Click(object sender, EventArgs e)
+        private void menuExitButton_Click(object sender, EventArgs e)
         {
-            Room room = new Room();
-            if (newRoomCount == 0) room.Name = "new room";
-            else room.Name = $"new room {newRoomCount}";
-            ViewModel.Rooms.Add(room);
-            newRoomCount++;
+            Close();
         }
 
-        private void DeleteRoomButton_Click(object sender, EventArgs e)
-        {
-        }
+        #endregion tool strip menu
     }
 }

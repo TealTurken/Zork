@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace Zork.Common
 {
-    public class World : INotifyPropertyChanged
+    public class World : INotifyPropertyChanged 
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

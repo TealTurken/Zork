@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -7,14 +8,16 @@ namespace Zork.Common
 // Room class accessed via object-oriented programming
 {
 
-    public class Room : IEquatable<Room>
+    public class Room : IEquatable<Room>, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         [JsonProperty(Order = 1)]
         public string Name { get;  set; } // allows outside programs to read this data
                                           // THIS USED TO BE "private set"
 
         [JsonProperty(Order = 2)]
-        public string Description { get; private set; } // set allows outside program to write to this data. Assign name.
+        public string Description { get; set; } // set allows outside program to write to this data. Assign name.
 
         // should be mapped to the JSON attribute name "Neighbors". In this way, we can provide alternative names to map between JSON objects/attributes and C# data types. 
         [JsonProperty(PropertyName = "Neighbors", Order = 3)]
@@ -34,6 +37,7 @@ namespace Zork.Common
         }
 
         public static bool operator !=(Room lhs, Room rhs) => !(lhs == rhs);
+
 
         public override bool Equals(object obj) => obj is Room room ? this == room : false;
 
