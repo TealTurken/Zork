@@ -61,6 +61,7 @@ namespace Zork.Builder
             {
                 menuSaveAsButton,
                 menuSaveButton,
+                menuCloseButton,
             };
             
             IsGameLoaded = false;
@@ -108,6 +109,11 @@ namespace Zork.Builder
         }
 
         #region Tool Strip Menu
+        private void menuNewButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void MenuSaveButton_Click(object sender, EventArgs e)
         {
             string filename = "Save Test Game.json";
@@ -137,11 +143,20 @@ namespace Zork.Builder
                     MessageBox.Show(ex.Message, "Zork Builder", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
         }
+        private void CloseMenuButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to close this game file?", "Zork Builder", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                ViewModel.game = null;
+                IsGameLoaded = false;
+            }
+        }
         private void menuExitButton_Click(object sender, EventArgs e)
         {
             Close();
         }
 
         #endregion tool strip menu
+
     }
 }
