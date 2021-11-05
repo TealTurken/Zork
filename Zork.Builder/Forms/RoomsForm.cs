@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -76,7 +78,7 @@ namespace Zork.Builder
         {
             deleteRoomButton.Enabled = roomsList.SelectedItem != null;
         }
-
+        #region Game Dependent Controls
         private void DeleteRoomButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Delete this room?", "Zork Builder", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -101,17 +103,36 @@ namespace Zork.Builder
             get => roomNameText.Text;
             set => roomNameText.Text = value;
         }
-        private void RoomNameText_TextChanged(object sender, EventArgs e)
+
+        string originalRoomName;
+        public void RoomNameText_Enter(object sender, EventArgs e)
+        {
+            originalRoomName = roomsList.SelectedItem.ToString();
+        }
+        private void RoomNameText_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(roomNameText.Text))
             {
+                MessageBox.Show("Name cannot be left blank");
+                roomNameText.Text = originalRoomName;
             }
         }
-
+        #endregion game dependent controls
         #region Tool Strip Menu
-        private void menuNewButton_Click(object sender, EventArgs e)
+        private void MenuNewButton_Click(object sender, EventArgs e)
         {
+            // KNOWN ISSUE: Neighbors comes back Null and cannot reopen file after closing.
+            // Create a new series of classes and lists for the brand new file
+            World NewWorld = new World();
+            NewWorld.Rooms = new List<Room>(Array.Empty<Room>());
+            string newStart = "New Room";
+            Player NewPlayer = new Player(NewWorld, newStart);
+            Game NewGame = new Game(NewWorld, NewPlayer);
 
+            // Once you've constructed all you need for a Game class, pass it into the view model.
+            ViewModel.Game = NewGame;
+
+            IsGameLoaded = true;
         }
 
         private void MenuSaveButton_Click(object sender, EventArgs e)
@@ -134,7 +155,7 @@ namespace Zork.Builder
                 {
                     {
                         string jsonString = File.ReadAllText(openFileDialog.FileName);
-                        ViewModel.game = JsonConvert.DeserializeObject<Game>(jsonString);
+                        ViewModel.Game = JsonConvert.DeserializeObject<Game>(jsonString);
                         IsGameLoaded = true;
                     }
                 }
@@ -147,16 +168,17 @@ namespace Zork.Builder
         {
             if (MessageBox.Show("Are you sure you want to close this game file?", "Zork Builder", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
-                ViewModel.game = null;
+                ViewModel.Game = null;
                 IsGameLoaded = false;
             }
         }
-        private void menuExitButton_Click(object sender, EventArgs e)
+        private void MenuExitButton_Click(object sender, EventArgs e)
         {
             Close();
         }
 
         #endregion tool strip menu
+
 
     }
 }

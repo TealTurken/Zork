@@ -16,7 +16,7 @@ namespace Zork.Builder.ViewModels
 
         public BindingList<Room> Rooms { get; set; }
 
-        public Game game
+        public Game Game
         {
             get => _game; // This line needed for the save function in RoomsForm.cs
             set
@@ -44,14 +44,20 @@ namespace Zork.Builder.ViewModels
 
             if (string.IsNullOrWhiteSpace(filename))
             {
-                throw new InvalidProgramException("Invalid filename.");
+                throw new InvalidProgramException("File must have a name.");
             }
+            
+            SerialWriter(filename);
 
+        }
+
+        public void SerialWriter(string fileName)
+        {
             JsonSerializer serializer = new JsonSerializer
             {
                 Formatting = Formatting.Indented
             };
-            using (StreamWriter streamWriter = new StreamWriter(filename))
+            using (StreamWriter streamWriter = new StreamWriter(fileName))
             using (JsonWriter jsonWriter = new JsonTextWriter(streamWriter))
             {
                 serializer.Serialize(jsonWriter, _game);

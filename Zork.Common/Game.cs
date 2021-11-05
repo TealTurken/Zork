@@ -25,8 +25,6 @@ namespace Zork.Common
             Player = player;
         }
 
-
-
         // --MAIN GAME--
         public void Run()
         {

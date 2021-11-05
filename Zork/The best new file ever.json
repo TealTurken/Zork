@@ -1,0 +1,22 @@
+{
+  "World": {
+    "Rooms": [
+      {
+        "Name": "Chicken House",
+        "Description": "House of chickens.",
+        "Neighbors": null
+      },
+      {
+        "Name": "Pizza Place",
+        "Description": "Get pizza here",
+        "Neighbors": null
+      },
+      {
+        "Name": "Orange Tilapia Shop",
+        "Description": "Why is everything food?",
+        "Neighbors": null
+      }
+    ],
+    "StartingLocation": null
+  }
+}
