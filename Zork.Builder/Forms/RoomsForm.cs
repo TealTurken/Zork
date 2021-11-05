@@ -116,17 +116,50 @@ namespace Zork.Builder
                 MessageBox.Show("Name cannot be left blank");
                 roomNameText.Text = originalRoomName;
             }
+            else
+            {
+                // Current room's name must NOT reflect it's live adapted name on the View Model
+                // in order to apply, so capture the new name and assign a temporary one.
+                string newRoomName = roomNameText.Text;
+                roomNameText.Text = "VALIDATING";
+
+                bool roomExists = false;
+                foreach (Room room in ViewModel.Rooms)
+                {
+                    if (newRoomName.Equals(room.Name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        roomExists = true;
+                        break;
+                    }
+                }
+                if (roomExists == true)
+                {
+                    MessageBox.Show("A room with that name already exists.");
+                    roomNameText.Text = originalRoomName;
+                }
+                else
+                {
+                    roomNameText.Text = newRoomName;
+                }
+            }
         }
         #endregion game dependent controls
         #region Tool Strip Menu
+        // name of the current open file. Will be Null initially when New is selected.
+        string jsonString;
         private void MenuNewButton_Click(object sender, EventArgs e)
         {
+            if (jsonString != null)
+            {
+                if (MessageBox.Show("Are you sure you want to close the current game file and open a new one?", "Zork Builder", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
+                return;
+            }
+            jsonString = null;
             // KNOWN ISSUE: Neighbors comes back Null and cannot reopen file after closing.
             // Create a new series of classes and lists for the brand new file
             World NewWorld = new World();
             NewWorld.Rooms = new List<Room>(Array.Empty<Room>());
-            string newStart = "New Room";
-            Player NewPlayer = new Player(NewWorld, newStart);
+            Player NewPlayer = new Player(NewWorld, "");
             Game NewGame = new Game(NewWorld, NewPlayer);
 
             // Once you've constructed all you need for a Game class, pass it into the view model.
@@ -137,8 +170,16 @@ namespace Zork.Builder
 
         private void MenuSaveButton_Click(object sender, EventArgs e)
         {
-            string filename = "Save Test Game.json";
-            ViewModel.SaveGame(filename);
+            if (jsonString == null) // if the file is new and has never been saved before...
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ViewModel.SaveGame(saveFileDialog.FileName);
+                    jsonString = saveFileDialog.FileName;
+                }
+                if (jsonString != null)
+                {
+                    ViewModel.SaveGame(jsonString);
+                }
         }
 
         private void MenuSaveAsButton_Click(object sender, EventArgs e)
@@ -148,13 +189,14 @@ namespace Zork.Builder
                 ViewModel.SaveGame(saveFileDialog.FileName);
             }    
         }
+
         private void MenuOpenButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
                 try
                 {
                     {
-                        string jsonString = File.ReadAllText(openFileDialog.FileName);
+                        jsonString = File.ReadAllText(openFileDialog.FileName);
                         ViewModel.Game = JsonConvert.DeserializeObject<Game>(jsonString);
                         IsGameLoaded = true;
                     }
