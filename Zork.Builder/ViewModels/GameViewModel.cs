@@ -14,6 +14,10 @@ namespace Zork.Builder.ViewModels
 
         public bool GameIsLoaded { get; set; }
 
+        public string StartingLocation { get; set; }
+
+        public Room Room { get; set; }
+
         public BindingList<Room> Rooms { get; set; }
 
         public Game Game
@@ -26,10 +30,12 @@ namespace Zork.Builder.ViewModels
                     _game = value;
                     if (_game != null)
                     {
+                        StartingLocation = null;
                         Rooms = new BindingList<Room>(_game.World.Rooms);
                     }
                     else
                     {
+                        StartingLocation = null;
                         Rooms = new BindingList<Room>(Array.Empty<Room>());
                     }
                 }

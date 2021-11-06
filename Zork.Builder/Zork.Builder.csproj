@@ -63,6 +63,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\NeighborsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\NeighborsControl.Designer.cs">
+      <DependentUpon>NeighborsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\GameViewModel.cs" />
     <EmbeddedResource Include="Forms\RoomsForm.resx">
       <DependentUpon>RoomsForm.cs</DependentUpon>
@@ -76,6 +82,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\NeighborsControl.resx">
+      <DependentUpon>NeighborsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Zork.Builder.ViewModels.GameViewModel.datasource" />
     <None Include="Properties\Settings.settings">

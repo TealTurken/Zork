@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Zork.Builder.ViewModels;
 using Zork.Common;
+using Zork.Builder.UserControls;
 
 namespace Zork.Builder
 {
@@ -65,6 +65,13 @@ namespace Zork.Builder
                 menuSaveButton,
                 menuCloseButton,
             };
+            mNeighborsControlMap = new Dictionary<Directions, NeighborsControl>
+            {
+                { Directions.NORTH, neighborsNorthControl },
+                { Directions.SOUTH, neighborsSouthControl },
+                { Directions.EAST, neighborsEastControl },
+                { Directions.WEST, neighborsWestControl }
+            };
             
             IsGameLoaded = false;
         }
@@ -73,10 +80,17 @@ namespace Zork.Builder
         private GameViewModel _viewModel;
         private Control[] _gameDependentControls;
         private ToolStripMenuItem[] _gameDependentMenuItems;
+        private readonly Dictionary<Directions, NeighborsControl> mNeighborsControlMap;
 
         private void RoomsList_SelectedIndexChanged(object sender, EventArgs e)
         {
             deleteRoomButton.Enabled = roomsList.SelectedItem != null;
+
+            Room selectedRoom = roomsList.SelectedItem as Room;
+            foreach (var control in mNeighborsControlMap.Values)
+            {
+                control.SelectedRoom = selectedRoom;
+            }
         }
         #region Game Dependent Controls
         private void DeleteRoomButton_Click(object sender, EventArgs e)
@@ -104,7 +118,7 @@ namespace Zork.Builder
             set => roomNameText.Text = value;
         }
 
-        string originalRoomName;
+        string originalRoomName = null;
         public void RoomNameText_Enter(object sender, EventArgs e)
         {
             originalRoomName = roomsList.SelectedItem.ToString();
@@ -198,6 +212,13 @@ namespace Zork.Builder
                     {
                         jsonString = File.ReadAllText(openFileDialog.FileName);
                         ViewModel.Game = JsonConvert.DeserializeObject<Game>(jsonString);
+
+                        Room selectedRoom = roomsList.SelectedItem as Room;
+                        foreach (var control in mNeighborsControlMap.Values)
+                        {
+                            control.SelectedRoom = selectedRoom;
+                        }
+
                         IsGameLoaded = true;
                     }
                 }

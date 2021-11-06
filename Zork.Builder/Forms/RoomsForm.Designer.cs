@@ -48,6 +48,10 @@ namespace Zork.Builder
             this.roomPropertiesBox = new System.Windows.Forms.GroupBox();
             this.roomPropertiesTabs = new System.Windows.Forms.TabControl();
             this.neighborsTab = new System.Windows.Forms.TabPage();
+            this.neighborsEastControl = new Zork.Builder.UserControls.NeighborsControl();
+            this.neighborsWestControl = new Zork.Builder.UserControls.NeighborsControl();
+            this.neighborsSouthControl = new Zork.Builder.UserControls.NeighborsControl();
+            this.neighborsNorthControl = new Zork.Builder.UserControls.NeighborsControl();
             this.roomItemsTab = new System.Windows.Forms.TabPage();
             this.roomDescriptionTextBox = new System.Windows.Forms.TextBox();
             this.roomDescriptionLabel = new System.Windows.Forms.Label();
@@ -63,6 +67,7 @@ namespace Zork.Builder
             ((System.ComponentModel.ISupportInitialize)(this.gameViewModelBindingSource)).BeginInit();
             this.roomPropertiesBox.SuspendLayout();
             this.roomPropertiesTabs.SuspendLayout();
+            this.neighborsTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStripMain
@@ -226,6 +231,10 @@ namespace Zork.Builder
             // 
             // neighborsTab
             // 
+            this.neighborsTab.Controls.Add(this.neighborsEastControl);
+            this.neighborsTab.Controls.Add(this.neighborsWestControl);
+            this.neighborsTab.Controls.Add(this.neighborsSouthControl);
+            this.neighborsTab.Controls.Add(this.neighborsNorthControl);
             this.neighborsTab.Location = new System.Drawing.Point(4, 29);
             this.neighborsTab.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.neighborsTab.Name = "neighborsTab";
@@ -234,6 +243,50 @@ namespace Zork.Builder
             this.neighborsTab.TabIndex = 0;
             this.neighborsTab.Text = "Neighbors";
             this.neighborsTab.UseVisualStyleBackColor = true;
+            // 
+            // neighborsEastControl
+            // 
+            this.neighborsEastControl.Direction = Zork.Common.Directions.EAST;
+            this.neighborsEastControl.Location = new System.Drawing.Point(394, 62);
+            this.neighborsEastControl.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.neighborsEastControl.Name = "neighborsEastControl";
+            this.neighborsEastControl.Room = null;
+            this.neighborsEastControl.SelectedRoom = null;
+            this.neighborsEastControl.Size = new System.Drawing.Size(184, 77);
+            this.neighborsEastControl.TabIndex = 2;
+            // 
+            // neighborsWestControl
+            // 
+            this.neighborsWestControl.Direction = Zork.Common.Directions.WEST;
+            this.neighborsWestControl.Location = new System.Drawing.Point(9, 62);
+            this.neighborsWestControl.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.neighborsWestControl.Name = "neighborsWestControl";
+            this.neighborsWestControl.Room = null;
+            this.neighborsWestControl.SelectedRoom = null;
+            this.neighborsWestControl.Size = new System.Drawing.Size(184, 77);
+            this.neighborsWestControl.TabIndex = 1;
+            // 
+            // neighborsSouthControl
+            // 
+            this.neighborsSouthControl.Direction = Zork.Common.Directions.SOUTH;
+            this.neighborsSouthControl.Location = new System.Drawing.Point(202, 105);
+            this.neighborsSouthControl.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.neighborsSouthControl.Name = "neighborsSouthControl";
+            this.neighborsSouthControl.Room = null;
+            this.neighborsSouthControl.SelectedRoom = null;
+            this.neighborsSouthControl.Size = new System.Drawing.Size(184, 77);
+            this.neighborsSouthControl.TabIndex = 0;
+            // 
+            // neighborsNorthControl
+            // 
+            this.neighborsNorthControl.Direction = Zork.Common.Directions.NORTH;
+            this.neighborsNorthControl.Location = new System.Drawing.Point(202, 18);
+            this.neighborsNorthControl.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.neighborsNorthControl.Name = "neighborsNorthControl";
+            this.neighborsNorthControl.Room = null;
+            this.neighborsNorthControl.SelectedRoom = null;
+            this.neighborsNorthControl.Size = new System.Drawing.Size(184, 77);
+            this.neighborsNorthControl.TabIndex = 0;
             // 
             // roomItemsTab
             // 
@@ -319,6 +372,7 @@ namespace Zork.Builder
             this.roomPropertiesBox.ResumeLayout(false);
             this.roomPropertiesBox.PerformLayout();
             this.roomPropertiesTabs.ResumeLayout(false);
+            this.neighborsTab.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -348,6 +402,10 @@ namespace Zork.Builder
         private System.Windows.Forms.ToolStripMenuItem menuSaveAsButton;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem menuCloseButton;
+        private UserControls.NeighborsControl neighborsEastControl;
+        private UserControls.NeighborsControl neighborsWestControl;
+        private UserControls.NeighborsControl neighborsSouthControl;
+        private UserControls.NeighborsControl neighborsNorthControl;
     }
 }
 

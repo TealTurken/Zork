@@ -25,7 +25,7 @@ namespace Zork.Common
 
         // This asks if there is a neighbor to the current room in the asked direction.
         [JsonIgnore]
-        public IReadOnlyDictionary<Directions, Room> Neighbors { get; private set; }
+        public Dictionary<Directions, Room> Neighbors { get; private set; }
 
         public static bool operator ==(Room lhs, Room rhs)
         {
