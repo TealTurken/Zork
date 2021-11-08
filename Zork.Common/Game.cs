@@ -19,6 +19,8 @@ namespace Zork.Common
         [JsonIgnore]
         private bool IsRunning { get; set; }
 
+        public IOutputService Output { get; set; }
+
         public Game(World world, Player player)
         {
             World = world;
@@ -31,35 +33,35 @@ namespace Zork.Common
             IsRunning = true;
             Room previousRoom = null;
 
-            Console.WriteLine("Welcome to Zork!");
-            Console.WriteLine(Player.Location);
+            Output.WriteLine("Welcome to Zork!");
+            Output.WriteLine(Player.Location);
             
             // --LOOP--
             while(IsRunning)
             {
                 if (previousRoom != Player.Location)
                 {
-                    Console.WriteLine(Player.Location.Description);
+                    Output.WriteLine(Player.Location.Description);
                     previousRoom = Player.Location;
                 }
 
-                Console.Write(">");
+                Output.Write(">");
                 Commands command = ToCommand(Console.ReadLine().Trim());
 
                 switch (command)
                 {
                     case Commands.HELP:
-                        Console.WriteLine("-Enter NORTH, SOUTH, EAST or WEST to navigate the world.\n-Enter LOOK to examine the area you are in.\n-Enter QUIT to quit the game.\n-Enter SCORE to see your points and REWARD to add 1 point.");
+                        Output.WriteLine("-Enter NORTH, SOUTH, EAST or WEST to navigate the world.\n-Enter LOOK to examine the area you are in.\n-Enter QUIT to quit the game.\n-Enter SCORE to see your points and REWARD to add 1 point.");
                         Player.Moves++;
                         break;
                     case Commands.QUIT:
-                        Console.WriteLine("Thank you for playing!");
+                        Output.WriteLine("Thank you for playing!");
                         Player.Moves++;
                         IsRunning = false;
                         break;
                     case Commands.LOOK:
-                        Console.WriteLine(Player.Location);
-                        Console.WriteLine(Player.Location.Description);
+                        Output.WriteLine(Player.Location);
+                        Output.WriteLine(Player.Location.Description);
                         Player.Moves++;
                         break;
 
@@ -68,34 +70,35 @@ namespace Zork.Common
                     case Commands.EAST:
                     case Commands.WEST:
                         Directions direction = (Directions)command;
-                        if (Player.Move(direction) == false) Console.WriteLine("The way is shut!");
-                        else Console.WriteLine(Player.Location);
+                        if (Player.Move(direction) == false) Output.WriteLine("The way is shut!");
+                        else Output.WriteLine(Player.Location);
                         Player.Moves++;
                         break;
 
                     case Commands.REWARD:
-                        Console.WriteLine("+1 SCORE added.");
+                        Output.WriteLine("+1 SCORE added.");
                         Player.Score++;
                         Player.Moves++;
                         break;
 
                     case Commands.SCORE:
                         Player.Moves++;
-                        Console.WriteLine($"Your score is {Player.Score} points in {Player.Moves} move(s).");
+                        Output.WriteLine($"Your score is {Player.Score} points in {Player.Moves} move(s).");
                         break;
 
                     default:
-                        Console.WriteLine("Unrecognized command.");
+                        Output.WriteLine("Unrecognized command.");
                         break;
                 }
             }
         }
 
         // Invoke the Load method from Program.cs
-        public static Game Load(string gameFile)
+        public static Game Load(string gameFile, IOutputService output)
         {
             Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(gameFile));
             game.Player = game.World.SpawnPlayer(); // Spawn player after game file has deserialized, hence all required data is now present.
+            game.Output = output;
             return game;
         }
 
