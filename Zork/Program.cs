@@ -11,7 +11,8 @@ namespace Zork
             string gameFile = (args.Length > 0 ? args[(int)CommandLineArguments.gameFile] : defaultGameFile);
 
             ConsoleOutputService output = new ConsoleOutputService();
-            Game game = Game.Load(gameFile, output);
+            ConsoleInputService input = new ConsoleInputService();
+            Game game = Game.Load(gameFile, output, input);
             game.Run();
         }
         private enum CommandLineArguments

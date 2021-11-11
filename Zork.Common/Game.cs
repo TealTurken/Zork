@@ -21,6 +21,8 @@ namespace Zork.Common
 
         public IOutputService Output { get; set; }
 
+        public IInputService Input { get; set; }
+
         public Game(World world, Player player)
         {
             World = world;
@@ -46,7 +48,7 @@ namespace Zork.Common
                 }
 
                 Output.Write(">");
-                Commands command = ToCommand(Console.ReadLine().Trim());
+                Commands command = ToCommand(Input.ReadLine().Trim());
 
                 switch (command)
                 {
@@ -94,11 +96,12 @@ namespace Zork.Common
         }
 
         // Invoke the Load method from Program.cs
-        public static Game Load(string gameFile, IOutputService output)
+        public static Game Load(string gameFile, IOutputService output, IInputService input)
         {
             Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(gameFile));
             game.Player = game.World.SpawnPlayer(); // Spawn player after game file has deserialized, hence all required data is now present.
             game.Output = output;
+            game.Input = input;
             return game;
         }
 
