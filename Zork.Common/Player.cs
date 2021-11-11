@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Zork.Common
 {
@@ -15,7 +16,7 @@ namespace Zork.Common
             get
             {
                 // ?. null-conditional operator, only returns property if is not null.
-                return Location?.Name; 
+                return Location?.Name;
             }
             set
             {

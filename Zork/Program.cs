@@ -12,9 +12,29 @@ namespace Zork
 
             ConsoleOutputService output = new ConsoleOutputService();
             ConsoleInputService input = new ConsoleInputService();
-            Game game = Game.Load(gameFile, output, input);
-            game.Run();
+            Game game = Game.Load(gameFile);
+
+            output.WriteLine("Welcome to Zork!");
+            game.Start(output, input);
+            output.WriteLine(game.Player.Location);
+
+            while (game.IsRunning)
+            {
+                if (game.previousRoom != game.Player.Location)
+                {
+                    output.WriteLine(game.Player.Location.Description);
+                    game.previousRoom = game.Player.Location;
+                }
+
+                output.Write(">");
+                input.ProcessInput();
+
+                
+            }
+
+            output.WriteLine("Thank you for playing!");
         }
+
         private enum CommandLineArguments
         {
             gameFile = 0
