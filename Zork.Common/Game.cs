@@ -31,9 +31,14 @@ namespace Zork.Common
 
         public Room previousRoom = null;
 
+        public static Game LoadFromFile(string jsonGameString)
+        {
+            return Load(File.ReadAllText(jsonGameString));
+        }
+
         public static Game Load(string gameFile)
         {
-            Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(gameFile));
+            Game game = JsonConvert.DeserializeObject<Game>(gameFile);
             game.Player = game.World.SpawnPlayer(); // Spawn player after game file has deserialized, hence all required data is now present.
             return game;
         }

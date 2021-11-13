@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zork;
 using Zork.Common;
 
 public class GameManager : MonoBehaviour

@@ -12,7 +12,7 @@ namespace Zork
 
             ConsoleOutputService output = new ConsoleOutputService();
             ConsoleInputService input = new ConsoleInputService();
-            Game game = Game.Load(gameFile);
+            Game game = Game.LoadFromFile(gameFile);
 
             output.WriteLine("Welcome to Zork!");
             game.Start(output, input);
