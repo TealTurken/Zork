@@ -494,8 +494,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00082397, y: -0.0010147}
-  m_SizeDelta: {x: 702.33, y: 232}
+  m_AnchoredPosition: {x: 0.0006156, y: -5.6671925}
+  m_SizeDelta: {x: 713.67, y: 220.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &234478292
 MonoBehaviour:
@@ -1224,7 +1224,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 199.66998, y: 11.599115}
+  m_AnchoredPosition: {x: 199.66998, y: 11.03386}
   m_SizeDelta: {x: 199.66998, y: 0}
   m_Pivot: {x: 1, y: 0.05}
 --- !u!114 &914352979
@@ -1350,8 +1350,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 502740746}
   m_HandleRect: {fileID: 502740745}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9999956
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1729,6 +1729,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1733881529}
   - component: {fileID: 1733881528}
+  - component: {fileID: 1733881531}
+  - component: {fileID: 1733881530}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1748,6 +1750,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9242a7895379ec9498be04253da9ee9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ZorkGameFileAssetName: Zork
+  Output: {fileID: 1733881531}
+  Input: {fileID: 1733881530}
 --- !u!4 &1733881529
 Transform:
   m_ObjectHideFlags: 0
@@ -1763,6 +1768,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1733881530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733881527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9126d6a98694fc1438e1ecc43148896f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1733881531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733881527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23015f047e52c8841a5636a13c0e1544, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1804504974
 GameObject:
   m_ObjectHideFlags: 0
