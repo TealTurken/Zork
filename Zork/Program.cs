@@ -28,7 +28,6 @@ namespace Zork
 
                 output.Write(">");
                 input.ProcessInput();
-
                 
             }
 
