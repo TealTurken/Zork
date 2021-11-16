@@ -10,18 +10,18 @@ public class UnityInputService : MonoBehaviour, IInputService
     [SerializeField]
     private TMP_InputField InputField;
 
-    public void ProcessInput()
-    {
-        
-    }
-
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.Return))
+        {
+            string inputString = InputField.text.Trim().ToUpper();
+            if (string.IsNullOrWhiteSpace(inputString) == false)
+            {
+                InputReceived?.Invoke(this, inputString);
+            }
+
+            InputField.text = string.Empty; // clears text field once player has hit ENTER
+        }
     }
+
 }

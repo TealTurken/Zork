@@ -12,13 +12,16 @@ public class UnityOutputService : MonoBehaviour, IOutputService
 
     public void Write(object value)
     {
-        string yes = "Yes".Trim().ToUpper();
+        OutputText.text = value.ToString();
     }
 
     public void WriteLine(object value)
     {
-        throw new System.NotImplementedException();
+        OutputText.text = value.ToString();
     }
+
+    [SerializeField]
+    private TextMeshProUGUI OutputText;
 
     void Start()
     {

@@ -6,6 +6,9 @@ namespace Zork.Common
     public class Player
     {
         public event EventHandler<Room> LocationChanged;
+        public event EventHandler<int> MovesChanged;
+        public event EventHandler<int> ScoreChanged;
+        
 
         public World World { get; }
 
@@ -54,11 +57,41 @@ namespace Zork.Common
         }
 
         [JsonIgnore]
-        public int Score;
+        public int Moves
+        {
+            get
+            {
+                return mMoves;
+            }
+            set
+            {
+                if (mMoves != value)
+                {
+                    mMoves = value;
+                    MovesChanged?.Invoke(this, mMoves);
+                }
+            }
+        }
 
         [JsonIgnore]
-        public int Moves;
+        public int Score
+        {
+            get
+            {
+                return mScore;
+            }
+            set
+            {
+                if (mScore != value)
+                {
+                    mScore = value;
+                    ScoreChanged?.Invoke(this, mScore);
+                }
+            }
+        }
         
         private Room mLocation;
+        private int mScore;
+        private int mMoves;
     }
 }

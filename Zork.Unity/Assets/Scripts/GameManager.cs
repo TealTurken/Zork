@@ -13,12 +13,26 @@ public class GameManager : MonoBehaviour
         game = Game.Load(gameJsonAsset.text);
         game.Start(OutputService, InputService);
         game.Player.LocationChanged += PlayerLocationChanged;
+        game.Player.MovesChanged += MovesChanged;
+        game.Player.ScoreChanged += ScoreChanged;
+    }
+
+    #region Event Handlers
+    private void ScoreChanged(object sender, int newScore)
+    {
+        ScoreText.text = newScore.ToString();
+    }
+
+    private void MovesChanged(object sender, int newMoves)
+    {
+        MovesText.text = newMoves.ToString();
     }
 
     private void PlayerLocationChanged(object sender, Room newRoom)
     {
         CurrentLocationText.text = newRoom.ToString();
     }
+    #endregion event handlers
 
     void Start()
     {
@@ -40,10 +54,10 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI CurrentLocationText;
     
     [SerializeField]
-    private TextMeshProUGUI ScoreText;
+    private TextMeshProUGUI ScoreText; // ensure you use ScoreValueText in Unity
     
     [SerializeField]
-    private TextMeshProUGUI MovesText;
+    private TextMeshProUGUI MovesText; // ensure you use MovesValueText in Unity
 
     [SerializeField]
     private UnityOutputService OutputService;
