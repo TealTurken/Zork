@@ -5,11 +5,26 @@ namespace Zork.Common
 {
     public class Player
     {
+        public event EventHandler<Room> LocationChanged;
+
         public World World { get; }
 
         [JsonIgnore]
-        public Room Location { get; private set; }
-
+        public Room Location 
+        { 
+            get
+            { 
+               return mLocation;
+            }
+            private set
+            {
+                if (mLocation != value)
+                {
+                    mLocation = value;
+                    LocationChanged?.Invoke(this, mLocation);
+                }
+            }
+        }
         [JsonIgnore]
         public string LocationName
         {
@@ -43,5 +58,7 @@ namespace Zork.Common
 
         [JsonIgnore]
         public int Moves;
+        
+        private Room mLocation;
     }
 }

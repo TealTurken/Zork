@@ -12,7 +12,7 @@ public class UnityOutputService : MonoBehaviour, IOutputService
 
     public void Write(object value)
     {
-        throw new System.NotImplementedException();
+        string yes = "Yes".Trim().ToUpper();
     }
 
     public void WriteLine(object value)

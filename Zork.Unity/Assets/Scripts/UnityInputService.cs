@@ -1,18 +1,25 @@
 using System;
 using UnityEngine;
 using Zork.Common;
+using TMPro;
 
 public class UnityInputService : MonoBehaviour, IInputService
 {
     public event EventHandler<string> InputReceived;
 
-    // Start is called before the first frame update
+    [SerializeField]
+    private TMP_InputField InputField;
+
+    public void ProcessInput()
+    {
+        
+    }
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
