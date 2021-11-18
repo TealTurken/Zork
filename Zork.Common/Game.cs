@@ -66,7 +66,7 @@ namespace Zork.Common
                     IsRunning = false;
                     break;
                 case Commands.LOOK:
-                    Output.WriteLine(Player.Location);
+                    Output.WriteLine(Player.Location.ToString());
                     Output.WriteLine(Player.Location.Description);
                     Player.Moves++;
                     break;
@@ -77,7 +77,7 @@ namespace Zork.Common
                 case Commands.WEST:
                     Directions direction = (Directions)command;
                     if (Player.Move(direction) == false) Output.WriteLine("The way is shut!");
-                    else Output.WriteLine(Player.Location);
+                    else Output.WriteLine(Player.Location.ToString());
                     Player.Moves++;
                     break;
 

@@ -70,32 +70,6 @@
                     "South": "Forest 3"
                 }
             }
-        ],
-        "Items": [ {
-                "Name": "Mailbox",
-                "Description": "This is a mailbox",
-                "Can Take": false,
-                "IsContainer": true,
-                    "Container": { 
-                        "Capacity": 3,
-                        "Start Open": false,
-                        "Cotains": [
-                    ]
-                    },
-                "Limited Uses": false,
-                    "UsageLimit": {
-                        "#ofUses": 1,
-                        "New Item on Use": false,
-                        "GetItem": ""
-                    },
-                "Used On": [
-                ],
-                "Award Points": false,
-                    "Point rewarding": {
-                        "#ofPoints": 1,
-                        "Award On": ""
-                    }
-            }
         ]
     }
 }

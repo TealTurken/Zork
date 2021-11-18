@@ -16,7 +16,7 @@ namespace Zork
 
             output.WriteLine("Welcome to Zork!");
             game.Start(output, input);
-            output.WriteLine(game.Player.Location);
+            output.WriteLine(game.Player.Location.ToString());
 
             while (game.IsRunning)
             {
