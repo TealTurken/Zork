@@ -21,6 +21,8 @@ public class UnityInputService : MonoBehaviour, IInputService
             }
 
             InputField.text = string.Empty; // clears text field once player has hit ENTER
+            InputField.Select(); // selects the input field again
+            InputField.ActivateInputField(); // "clicks" on the input field to reactivate it for input
         }
     }
 

@@ -1,12 +1,10 @@
 using UnityEngine;
-using Zork;
 using Zork.Common;
 using TMPro;
-using System;
 
 public class GameManager : MonoBehaviour
 {
-    Game game;
+    public Game game;
     void Awake()
     {
         TextAsset gameJsonAsset = Resources.Load<TextAsset>(ZorkGameFileAssetName);
@@ -16,8 +14,25 @@ public class GameManager : MonoBehaviour
         game.Player.MovesChanged += MovesChanged;
         game.Player.ScoreChanged += ScoreChanged;
     }
+    void Start()
+    {
+        CurrentLocationText.text = game.Player.Location.ToString();
+        MovesText.text = game.Player.Moves.ToString();
+        ScoreText.text = game.Player.Score.ToString();
+        game.RunningGame += RunningGame;
+    }
+
+    void Update()
+    {
+    }
 
     #region Event Handlers
+    private void RunningGame(object sender, bool isRunning)
+    {
+        UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
+    }
+
     private void ScoreChanged(object sender, int newScore)
     {
         ScoreText.text = newScore.ToString();
@@ -34,17 +49,6 @@ public class GameManager : MonoBehaviour
     }
     #endregion event handlers
 
-    void Start()
-    {
-        CurrentLocationText.text = game.Player.Location.ToString();
-        MovesText.text = game.Player.Moves.ToString();
-        ScoreText.text = game.Player.Score.ToString();
-    }
-
-    void Update()
-    {
-        
-    }
 
     #region Serialized Fields
     [SerializeField]

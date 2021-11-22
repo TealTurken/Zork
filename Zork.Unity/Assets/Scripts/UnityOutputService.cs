@@ -22,10 +22,14 @@ public class UnityOutputService : MonoBehaviour, IOutputService
     private Image OutputNewLinePrefab;
 
     #endregion serialized fields
+
+    public void Awake()
+    {
+    }
     public void Start()
     {
-        Write("Welcome to Zork!");
     }
+
     private readonly List<GameObject> Entries;
     public UnityOutputService()
     {
@@ -42,10 +46,7 @@ public class UnityOutputService : MonoBehaviour, IOutputService
 
     public void Write(string value)
     {
-        var textObject = GameObject.Instantiate(OutputTextPrefab);
-        textObject.transform.SetParent(OutputContainer, false);
-        OutputTextPrefab.text = value;
-        Entries.Add(OutputTextPrefab.gameObject);
+        ParseAndWrite(value);
     }
     public void WriteLine(string value)
     {
@@ -71,7 +72,7 @@ public class UnityOutputService : MonoBehaviour, IOutputService
                 NewLiner();
             }
 
-            else Prefaber(line);
+            else WritetoUnity(line);
         }
 
     }
@@ -82,7 +83,7 @@ public class UnityOutputService : MonoBehaviour, IOutputService
         newLineObject.transform.SetParent(OutputContainer, false);
         Entries.Add(newLineObject.gameObject);
     }
-    public void Prefaber(string value)
+    public void WritetoUnity(string value)
     {
         /* To add to the content box of the scroll view in Unity,
          * create a variable assigned to a newly created Unity GameObject and instantiate it.
@@ -92,7 +93,7 @@ public class UnityOutputService : MonoBehaviour, IOutputService
          */
         var textObject = GameObject.Instantiate(OutputTextPrefab);
         textObject.transform.SetParent(OutputContainer, false);
-        OutputTextPrefab.text = value;
-        Entries.Add(OutputTextPrefab.gameObject);
+        textObject.text = value;
+        Entries.Add(textObject.gameObject);
     }
 }

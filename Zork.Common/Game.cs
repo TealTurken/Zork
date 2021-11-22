@@ -8,6 +8,7 @@ namespace Zork.Common
     public class Game : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<bool> RunningGame;
 
         // To deserialize the World object in Zork.json, you need a class with a Public Property named World.
         // This will convert JSON data into a Game class instance. The World object has attributes that need to be deserialized as well, so you need a World class to create a World class instance.
@@ -17,7 +18,22 @@ namespace Zork.Common
         public Player Player { get; private set; }
 
         [JsonIgnore]
-        public bool IsRunning { get; set; }
+        public bool IsRunning
+        {
+            get
+            {
+                return mIsRunning;
+            }
+            set
+            {
+                if (mIsRunning != value)
+                {
+                    mIsRunning = value;
+                    RunningGame?.Invoke(this, mIsRunning);
+                }
+            }
+        }
+        private bool mIsRunning;
 
         public IOutputService Output { get; set; }
 
@@ -49,6 +65,9 @@ namespace Zork.Common
             Input = input;
             Input.InputReceived += InputReceivedHandler;
             IsRunning = true;
+
+            Output.WriteLine("Welcome to Zork!");
+            Output.WriteLine(Player.Location.ToString());
         }
 
         private void InputReceivedHandler(object sender, string input)
@@ -62,7 +81,7 @@ namespace Zork.Common
                     Player.Moves++;
                     break;
                 case Commands.QUIT:
-                    Player.Moves++;
+                    Output.Write("Thank you for playing!");
                     IsRunning = false;
                     break;
                 case Commands.LOOK:
@@ -77,6 +96,12 @@ namespace Zork.Common
                 case Commands.WEST:
                     Directions direction = (Directions)command;
                     if (Player.Move(direction) == false) Output.WriteLine("The way is shut!");
+                        else if (previousRoom != Player.Location)
+                        {
+                            Output.WriteLine(Player.Location.ToString());
+                            Output.WriteLine(Player.Location.Description);
+                            previousRoom = Player.Location;
+                        }
                     else Output.WriteLine(Player.Location.ToString());
                     Player.Moves++;
                     break;
@@ -88,7 +113,6 @@ namespace Zork.Common
                     break;
 
                 case Commands.SCORE:
-                    Player.Moves++;
                     Output.WriteLine($"Your score is {Player.Score} points in {Player.Moves} move(s).");
                     break;
 
