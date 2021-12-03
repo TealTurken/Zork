@@ -2,6 +2,8 @@
 using System.IO;
 using Newtonsoft.Json;
 using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Zork.Common
 {
@@ -39,10 +41,25 @@ namespace Zork.Common
 
         public IInputService Input { get; set; }
 
+        [JsonIgnore]
+        public Dictionary<string, Command> Commands { get; private set; }
+
         public Game(World world, Player player)
         {
             World = world;
             Player = player;
+
+            Commands = new Dictionary<string, Command>()
+            {
+                { "QUIT", new Command("QUIT", new string[] { "QUIT", "Q", "BYE" }, Quit) },
+                { "LOOK", new Command("LOOK", new string[] { "LOOK", "L" }, Look) },
+                { "REWARD", new Command("REWARD", new string[] { "REWARD", "R", "ADD" }, Reward) },
+                { "SCORE", new Command("SCORE", new string[] { "SCORE", "POINTS", "P" }, Score) },
+                { "NORTH", new Command("NORTH", new string[] { "NORTH", "N" }, game => Move(game, Directions.NORTH)) },
+                { "SOUTH", new Command("SOUTH", new string[] { "SOUTH", "S" }, game => Move(game, Directions.SOUTH)) },
+                { "EAST", new Command("EAST", new string[] { "EAST", "E"}, game => Move(game, Directions.EAST)) },
+                { "WEST", new Command("WEST", new string[] { "WEST", "W" }, game => Move(game, Directions.WEST)) },
+            };
         }
 
         public Room previousRoom = null;
@@ -72,56 +89,56 @@ namespace Zork.Common
 
         private void InputReceivedHandler(object sender, string input)
         {
-            Commands command = ToCommand(input);
-
-            switch (command)
+            // Search for a command by it's list of Verbs
+            Command foundCommand = null;
+            foreach (Command command in Commands.Values)
             {
-                case Commands.HELP:
-                    Output.WriteLine("-Enter NORTH, SOUTH, EAST or WEST to navigate the world.\n-Enter LOOK to examine the area you are in.\n-Enter QUIT to quit the game.\n-Enter SCORE to see your points and REWARD to add 1 point.");
-                    Player.Moves++;
+                if (command.Verbs.Contains(input))
+                {
+                    foundCommand = command;
                     break;
-                case Commands.QUIT:
-                    Output.Write("Thank you for playing!");
-                    IsRunning = false;
-                    break;
-                case Commands.LOOK:
-                    Output.WriteLine(Player.Location.ToString());
-                    Output.WriteLine(Player.Location.Description);
-                    Player.Moves++;
-                    break;
-
-                case Commands.NORTH:
-                case Commands.SOUTH:
-                case Commands.EAST:
-                case Commands.WEST:
-                    Directions direction = (Directions)command;
-                    if (Player.Move(direction) == false) Output.WriteLine("The way is shut!");
-                        else if (previousRoom != Player.Location)
-                        {
-                            Output.WriteLine(Player.Location.ToString());
-                            Output.WriteLine(Player.Location.Description);
-                            previousRoom = Player.Location;
-                        }
-                    else Output.WriteLine(Player.Location.ToString());
-                    Player.Moves++;
-                    break;
-
-                case Commands.REWARD:
-                    Output.WriteLine("+1 SCORE added.");
-                    Player.Score++;
-                    Player.Moves++;
-                    break;
-
-                case Commands.SCORE:
-                    Output.WriteLine($"Your score is {Player.Score} points in {Player.Moves} move(s).");
-                    break;
-
-                default:
-                    Output.WriteLine("Unrecognized command.");
-                    break;
+                }
             }
+            // if you found a Verb, execute the command's assigned Action.
+            if (foundCommand != null) foundCommand.Action(this);
+            else Output.WriteLine("Unknown command.");
         }
 
-        private static Commands ToCommand(string commandString) => Enum.TryParse<Commands>(commandString, true, out Commands result) ? result : Commands.UNKNOWN;
+        private static void Move(Game game, Directions direction)
+        {
+            if (game.Player.Move(direction) == false) game.Output.WriteLine("The way is shut!");
+            
+            if (game.previousRoom != game.Player.Location)
+            {
+                game.Output.WriteLine(game.Player.Location.ToString());
+                game.Output.WriteLine(game.Player.Location.Description);
+                game.previousRoom = game.Player.Location;
+            }
+                game.Player.Moves++;
+        }
+
+        private static void Look(Game game)
+        {
+            game.Output.WriteLine(game.Player.Location.ToString());
+            game.Output.WriteLine(game.Player.Location.Description);
+            game.Player.Moves++;
+        }
+
+        private static void Quit(Game game)
+        {
+            game.Output.Write("Thank you for playing!");
+            game.IsRunning = false;
+        }
+
+        private static void Reward(Game game)
+        {
+            game.Player.Score++;
+            game.Output.WriteLine("Score increased by 1");
+        }
+
+        private static void Score(Game game)
+        {
+            game.Output.WriteLine($"Your score is {game.Player.Score} points in {game.Player.Moves} moves.");
+        }
     }
 }
