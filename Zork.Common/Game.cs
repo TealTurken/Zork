@@ -121,6 +121,13 @@ namespace Zork.Common
         {
             game.Output.WriteLine(game.Player.Location.ToString());
             game.Output.WriteLine(game.Player.Location.Description);
+            if (game.Player.Location.Items.Count != 0)
+            {
+                foreach (var item in game.Player.Location.Items)
+                {
+                    game.Output.WriteLine($"There is a {item.Key}");
+                }
+            }
             game.Player.Moves++;
         }
 

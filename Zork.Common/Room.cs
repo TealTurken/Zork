@@ -13,8 +13,7 @@ namespace Zork.Common
         public event PropertyChangedEventHandler PropertyChanged;
 
         [JsonProperty(Order = 1)]
-        public string Name { get;  set; } // allows outside programs to read this data
-                                          // THIS USED TO BE "private set"
+        public string Name { get; set; } // allows outside programs to read this data
 
         [JsonProperty(Order = 2)]
         public string Description { get; set; } // set allows outside program to write to this data. Assign name.
@@ -27,6 +26,13 @@ namespace Zork.Common
         [JsonIgnore]
         public Dictionary<Directions, Room> Neighbors { get; private set; }
 
+        // ITEMS
+        [JsonProperty(PropertyName = "Items", Order = 4)]
+        private List<string> ItemsNames { get; set; }
+
+        [JsonIgnore]
+        public Dictionary<string, Item> Items { get; private set; } = new Dictionary<string, Item>();
+        #region Comparisons
         public static bool operator ==(Room lhs, Room rhs)
         {
             if (ReferenceEquals(lhs, rhs)) return true;
@@ -38,12 +44,12 @@ namespace Zork.Common
 
         public static bool operator !=(Room lhs, Room rhs) => !(lhs == rhs);
 
-
         public override bool Equals(object obj) => obj is Room room ? this == room : false;
 
         public bool Equals(Room other) => this == other;
-
+        #endregion comparisons
         public override string ToString() => Name;
+
         public override int GetHashCode() => Name.GetHashCode();
 
         public void UpdateNeighbors(World world) => Neighbors = (from entry in NeighborNames
@@ -51,5 +57,20 @@ namespace Zork.Common
                                                                  where room != null
                                                                  select (Direction: entry.Key, Room: room))
                                                                  .ToDictionary(pair => pair.Direction, pair => pair.Room);
+
+        public void UpdateItems(World world)
+        {
+            foreach (var entry in ItemsNames)
+            {
+                for (int x = 0; x < world.Items.Count; x++)
+                {
+                    if (entry == world.Items[x].Name.ToString())
+                    {
+                        Items.Add(entry, world.Items[x]);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
