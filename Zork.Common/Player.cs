@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Zork.Common
@@ -89,7 +90,11 @@ namespace Zork.Common
                 }
             }
         }
-        
+
+        public List<string> Inventory { get; set; } = new List<string>();
+
+        public Dictionary<string, Item> Items { get; private set; } = new Dictionary<string, Item>();
+
         private Room mLocation;
         private int mScore;
         private int mMoves;

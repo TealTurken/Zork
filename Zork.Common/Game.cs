@@ -59,6 +59,8 @@ namespace Zork.Common
                 { "SOUTH", new Command("SOUTH", new string[] { "SOUTH", "S" }, game => Move(game, Directions.SOUTH)) },
                 { "EAST", new Command("EAST", new string[] { "EAST", "E"}, game => Move(game, Directions.EAST)) },
                 { "WEST", new Command("WEST", new string[] { "WEST", "W" }, game => Move(game, Directions.WEST)) },
+                { "TAKE", new Command("TAKE", new string[] { "TAKE" }, Take) },
+                { "INVENTORY", new Command("INVENTORY", new string[] { "INVENTORY", "I" }, Inventory) },
             };
         }
 
@@ -87,13 +89,17 @@ namespace Zork.Common
             Output.WriteLine(Player.Location.ToString());
         }
 
+        public string[] inputString;
+        public const char delimiter = ' ';
         private void InputReceivedHandler(object sender, string input)
         {
+            inputString = null;
+            inputString = input.Split(delimiter);
             // Search for a command by it's list of Verbs
             Command foundCommand = null;
             foreach (Command command in Commands.Values)
             {
-                if (command.Verbs.Contains(input))
+                if (command.Verbs.Contains(inputString[0]))
                 {
                     foundCommand = command;
                     break;
@@ -129,6 +135,58 @@ namespace Zork.Common
                 }
             }
             game.Player.Moves++;
+        }
+
+        private static void Inventory(Game game)
+        {
+            if (game.Player.Inventory.Count >= 1)
+                {
+                    game.Output.WriteLine("You possess;");
+                    foreach (var item in game.Player.Inventory)
+                    {
+                        game.Output.WriteLine($"{item}");
+                    }
+                }
+            else game.Output.WriteLine("You have nothing in your inventory.");
+        }
+
+        private static void Take(Game game)
+        {
+            string[] command = game.inputString;
+            bool NoMatch = false;
+
+            if (command.Length == 1) game.Output.WriteLine("Enter the name of the item you want to take!");
+
+            else if (command.Length > 1)
+            {
+                // Grab each item in the current room and check if it matches the item searched for.
+                foreach (var item in game.Player.Location.Items)
+                {
+                    // If the item was found, iterate through the world's list of items to get the
+                    // proper matching item to add to Player's inventory.
+                    // then remove the item from the Room's items' list and output response.
+                    if (command[1].Contains(item.Key.ToString().ToUpper()))
+                    {
+                        NoMatch = false;
+                        for (int x = 0; x < game.World.Items.Count; x++)
+                        {
+                            if (command[1] == game.World.Items[x].Name.ToString().ToUpper())
+                            {
+                                game.Player.Inventory.Add(game.World.Items[x].Name);
+                                break;
+                            }
+                        }
+                        game.Player.Location.Items.Remove(item.Key);
+                        game.Output.WriteLine($"You took {item.Key}");
+                        break;
+                    }
+                    else NoMatch = true;
+                }
+                if (NoMatch == true)
+                {
+                    game.Output.WriteLine("That item does not exist!");
+                }
+            }
         }
 
         private static void Quit(Game game)
