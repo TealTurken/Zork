@@ -16,6 +16,9 @@ namespace Zork.Common
         [JsonProperty(Order = 2)]
         public string Description { get; set; }
 
+        [JsonProperty(Order = 3)]
+        public bool Takable { get; set; }
+
         public static bool operator ==(Item lhs, Item rhs)
         {
             if (ReferenceEquals(lhs, rhs)) return true;

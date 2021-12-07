@@ -93,15 +93,18 @@
         "Items": [
             {
                 "Name": "Leaflet",
-                "Description": "This is a leaflet."
+                "Description": "This is a leaflet.",
+                "Takable": true
             },
             {
                 "Name": "Mat",
-                "Description": "A welcome mat that says 'Welcome to Zork!'"
+                "Description": "A welcome mat that says 'Welcome to Zork!'",
+                "Takable": true
             },
             {
                 "Name": "Mailbox",
-                "Description": "A simple mailbox"
+                "Description": "A simple mailbox",
+                "Takable": false
             }
         ]
     }

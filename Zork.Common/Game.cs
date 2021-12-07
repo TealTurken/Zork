@@ -160,32 +160,41 @@ namespace Zork.Common
 
             else if (command.Length > 1)
             {
-                // Grab each item in the current room and check if it matches the item searched for.
-                foreach (var item in game.Player.Location.Items)
-                {
-                    // If the item was found, iterate through the world's list of items to get the
-                    // proper matching item to add to Player's inventory.
-                    // then remove the item from the Room's items' list and output response.
-                    if (command[1].Contains(item.Key.ToString().ToUpper()))
+                if (game.Player.Items.Count >= game.Player.ItemCap) game.Output.WriteLine("You can't carry anymore items!");
+                else
+                { 
+                    // Grab each item in the current room and check if it matches the item searched for.
+                    foreach (var item in game.Player.Location.Items)
                     {
-                        NoMatch = false;
-                        for (int x = 0; x < game.World.Items.Count; x++)
+                        if (item.Value.Takable == false)
                         {
-                            if (command[1] == game.World.Items[x].Name.ToString().ToUpper())
-                            {
-                                game.Player.Items.Add(item.Key, item.Value);
-                                break;
-                            }
+                            game.Output.WriteLine("You can't take this!");
+                            return;
                         }
-                        game.Player.Location.Items.Remove(item.Key);
-                        game.Output.WriteLine($"You took {item.Key}");
-                        break;
+                        // If the item was found, iterate through the world's list of items to get the
+                        // proper matching item to add to the Player's inventory.
+                        // then remove the item from the Room's items' list and output response.
+                        if (command[1].Contains(item.Key.ToString().ToUpper()))
+                        {
+                            NoMatch = false;
+                            for (int x = 0; x < game.World.Items.Count; x++)
+                            {
+                                if (command[1] == game.World.Items[x].Name.ToString().ToUpper())
+                                {
+                                    game.Player.Items.Add(item.Key, item.Value);
+                                    break;
+                                }
+                            }
+                            game.Player.Location.Items.Remove(item.Key);
+                            game.Output.WriteLine($"You took {item.Key}");
+                            break;
+                        }
+                        else NoMatch = true;
                     }
-                    else NoMatch = true;
-                }
-                if (NoMatch == true)
-                {
-                    game.Output.WriteLine("That item does not exist!");
+                    if (NoMatch == true)
+                    {
+                        game.Output.WriteLine("That item does not exist!");
+                    }
                 }
             }
         }
