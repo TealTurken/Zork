@@ -91,8 +91,6 @@ namespace Zork.Common
             }
         }
 
-        public List<string> Inventory { get; set; } = new List<string>();
-
         public Dictionary<string, Item> Items { get; private set; } = new Dictionary<string, Item>();
 
         private Room mLocation;

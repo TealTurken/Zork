@@ -60,6 +60,7 @@ namespace Zork.Common
                 { "EAST", new Command("EAST", new string[] { "EAST", "E"}, game => Move(game, Directions.EAST)) },
                 { "WEST", new Command("WEST", new string[] { "WEST", "W" }, game => Move(game, Directions.WEST)) },
                 { "TAKE", new Command("TAKE", new string[] { "TAKE" }, Take) },
+                { "DROP", new Command("DROP", new string[] { "DROP" }, Drop) },
                 { "INVENTORY", new Command("INVENTORY", new string[] { "INVENTORY", "I" }, Inventory) },
             };
         }
@@ -139,12 +140,12 @@ namespace Zork.Common
 
         private static void Inventory(Game game)
         {
-            if (game.Player.Inventory.Count >= 1)
+            if (game.Player.Items.Count >= 1)
                 {
                     game.Output.WriteLine("You possess;");
-                    foreach (var item in game.Player.Inventory)
+                    foreach (var item in game.Player.Items)
                     {
-                        game.Output.WriteLine($"{item}");
+                        game.Output.WriteLine($"{item.Key}");
                     }
                 }
             else game.Output.WriteLine("You have nothing in your inventory.");
@@ -172,7 +173,7 @@ namespace Zork.Common
                         {
                             if (command[1] == game.World.Items[x].Name.ToString().ToUpper())
                             {
-                                game.Player.Inventory.Add(game.World.Items[x].Name);
+                                game.Player.Items.Add(item.Key, item.Value);
                                 break;
                             }
                         }
@@ -186,6 +187,45 @@ namespace Zork.Common
                 {
                     game.Output.WriteLine("That item does not exist!");
                 }
+            }
+        }
+
+        private static void Drop(Game game)
+        {
+            string[] command = game.inputString;
+            bool NoMatch = false;
+
+            if (command.Length == 1) game.Output.WriteLine("Enter the name of the item you want to drop.");
+
+            else if (command.Length > 1)
+            {
+                if (game.Player.Items.Count > 0)
+                {
+                    foreach (var item in game.Player.Items)
+                    {
+                        if (command[1].Contains(item.Key.ToString().ToUpper()))
+                        {
+                            NoMatch = false;
+                            for (int x = 0; x < game.World.Items.Count; x++)
+                            {
+                                if (command[1] == game.World.Items[x].Name.ToString().ToUpper())
+                                {
+                                    game.Player.Items.Remove(item.Key);
+                                    break;
+                                }
+                            }
+                            game.Player.Location.Items.Add(item.Key, item.Value);
+                            game.Output.WriteLine($"You dropped {item.Key}");
+                            break;
+                        }
+                        else NoMatch = true;
+                    }
+                    if (NoMatch == true)
+                    {
+                        game.Output.WriteLine("You have no such item!");
+                    }
+                }
+                else game.Output.WriteLine("You have no items to drop!");
             }
         }
 
