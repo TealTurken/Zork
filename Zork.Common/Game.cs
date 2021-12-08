@@ -51,6 +51,7 @@ namespace Zork.Common
 
             Commands = new Dictionary<string, Command>()
             {
+                { "HELP", new Command("HELP", new string[] { "HELP" }, Help) },
                 { "QUIT", new Command("QUIT", new string[] { "QUIT", "Q", "BYE" }, Quit) },
                 { "LOOK", new Command("LOOK", new string[] { "LOOK", "L" }, Look) },
                 { "REWARD", new Command("REWARD", new string[] { "REWARD", "R", "ADD" }, Reward) },
@@ -86,8 +87,19 @@ namespace Zork.Common
             Input.InputReceived += InputReceivedHandler;
             IsRunning = true;
 
-            Output.WriteLine("Welcome to Zork!");
+            Output.WriteLine("Welcome to Zork!\n");
             Output.WriteLine(Player.Location.ToString());
+            Output.WriteLine(Player.Location.Description);
+            Output.WriteLine("");
+            if (Player.Location.Items.Count != 0)
+            {
+                Output.WriteLine($"Strewn around you can see;");
+                foreach (var item in Player.Location.Items)
+                {
+                    Output.WriteLine($"a {item.Key}");
+                }
+                Output.WriteLine("\nEnter HELP to see a list of commands and verbs.");
+            }
         }
 
         public string[] inputString;
@@ -117,23 +129,24 @@ namespace Zork.Common
             
             if (game.previousRoom != game.Player.Location)
             {
-                game.Output.WriteLine(game.Player.Location.ToString());
-                game.Output.WriteLine(game.Player.Location.Description);
+                Look(game);
                 game.previousRoom = game.Player.Location;
             }
-                game.Player.Moves++;
         }
 
         private static void Look(Game game)
         {
             game.Output.WriteLine(game.Player.Location.ToString());
             game.Output.WriteLine(game.Player.Location.Description);
+            game.Output.WriteLine("");
             if (game.Player.Location.Items.Count != 0)
             {
+                game.Output.WriteLine("Strewn around you can see;");
                 foreach (var item in game.Player.Location.Items)
                 {
-                    game.Output.WriteLine($"There is a {item.Key}");
+                    game.Output.WriteLine($"a {item.Key}");
                 }
+                game.Output.WriteLine("");
             }
             game.Player.Moves++;
         }
@@ -142,13 +155,16 @@ namespace Zork.Common
         {
             if (game.Player.Items.Count >= 1)
                 {
-                    game.Output.WriteLine("You possess;");
+                    game.Output.WriteLine("You are carrying;");
                     foreach (var item in game.Player.Items)
                     {
                         game.Output.WriteLine($"{item.Key}");
                     }
-                }
+                    game.Output.WriteLine("");
+            }
             else game.Output.WriteLine("You have nothing in your inventory.");
+
+            game.Player.Moves++;
         }
 
         private static void Take(Game game)
@@ -156,27 +172,29 @@ namespace Zork.Common
             string[] command = game.inputString;
             bool NoMatch = false;
 
-            if (command.Length == 1) game.Output.WriteLine("Enter the name of the item you want to take!");
+            if (command.Length == 1) game.Output.WriteLine("Enter the name of the item you want to take.");
 
             else if (command.Length > 1)
             {
+                game.Player.Moves++;
                 if (game.Player.Items.Count >= game.Player.ItemCap) game.Output.WriteLine("You can't carry anymore items!");
                 else
                 { 
                     // Grab each item in the current room and check if it matches the item searched for.
                     foreach (var item in game.Player.Location.Items)
                     {
-                        if (item.Value.Takable == false)
-                        {
-                            game.Output.WriteLine("You can't take this!");
-                            return;
-                        }
-                        // If the item was found, iterate through the world's list of items to get the
-                        // proper matching item to add to the Player's inventory.
-                        // then remove the item from the Room's items' list and output response.
+                        // If the item was found to be in the room, check if it can be taken
                         if (command[1].Contains(item.Key.ToString().ToUpper()))
                         {
+                            if (item.Value.Takable == false)
+                            {
+                                game.Output.WriteLine("You can't take this!");
+                                return;
+                            }
+
                             NoMatch = false;
+                            // iterate through the world's list of items to get the proper
+                            // matching item to add to the Player's inventory.
                             for (int x = 0; x < game.World.Items.Count; x++)
                             {
                                 if (command[1] == game.World.Items[x].Name.ToString().ToUpper())
@@ -185,8 +203,9 @@ namespace Zork.Common
                                     break;
                                 }
                             }
+                            // then remove the item from the Room's items' list and output response.
                             game.Player.Location.Items.Remove(item.Key);
-                            game.Output.WriteLine($"You took {item.Key}");
+                            game.Output.WriteLine($"You took the {item.Key}");
                             break;
                         }
                         else NoMatch = true;
@@ -208,6 +227,7 @@ namespace Zork.Common
 
             else if (command.Length > 1)
             {
+                game.Player.Moves++;
                 if (game.Player.Items.Count > 0)
                 {
                     foreach (var item in game.Player.Items)
@@ -224,7 +244,7 @@ namespace Zork.Common
                                 }
                             }
                             game.Player.Location.Items.Add(item.Key, item.Value);
-                            game.Output.WriteLine($"You dropped {item.Key}");
+                            game.Output.WriteLine($"You dropped a {item.Key}");
                             break;
                         }
                         else NoMatch = true;
@@ -253,6 +273,19 @@ namespace Zork.Common
         private static void Score(Game game)
         {
             game.Output.WriteLine($"Your score is {game.Player.Score} points in {game.Player.Moves} moves.");
+        }
+
+        private static void Help(Game game)
+        {
+            foreach (var command in game.Commands)
+            {
+            game.Output.WriteLine($"--For {command.Key}--");
+                for (var x = 0; x < command.Value.Verbs.Length; x++)
+                {
+                    game.Output.Write($" '{command.Value.Verbs[x]}'");
+                }
+            game.Output.WriteLine("\n");
+            }
         }
     }
 }
