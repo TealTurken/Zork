@@ -24,7 +24,6 @@
                     "West": "West of House"
                 },
                 "Items": [
-                    "Leaflet"
                 ]
             },
             {
@@ -98,32 +97,62 @@
             {
                 "Name": "Leaflet",
                 "Description": "A leaflet which says 'If you're expecting the full Zork experience, you expect too much!'.",
-                "Takable": true
+                "Takable": true,
+                "IsContainer": false,
+                "IsOpen": false,
+                "Storage": [
+
+                ]
             },
             {
                 "Name": "Mat",
                 "Description": "A welcome mat that says 'Welcome to Zork!'",
-                "Takable": true
+                "Takable": true,
+                "IsContainer": false,
+                "IsOpen": false,
+                "Storage": [
+
+                ]
             },
             {
                 "Name": "Mailbox",
                 "Description": "A simple wood mailbox staked to the ground. Weeds are grown all over it.",
-                "Takable": false
+                "Takable": false,
+                "IsContainer": true,
+                "IsOpen": false,
+                "Storage": [
+                    "Leaflet"
+                ]
             },
             {
                 "Name": "Sword",
                 "Description": "A silver sword, looks very sharp.",
-                "Takable": true
+                "Takable": true,
+                "IsContainer": false,
+                "IsOpen": false,
+                "Storage": [
+
+                ]
             },
             {
                 "Name": "Egg",
                 "Description": "A small, spotted egg.",
-                "Takable": true
+                "Takable": true,
+                "IsContainer": false,
+                "IsOpen": false,
+                "Storage": [
+
+                ]
             },
             {
                 "Name": "Signpost",
                 "Description": "The lettering on this signpost is a little worn.\n'Zork house due east of here.'",
-                "Takable": false
+                "Takable": false,
+                "IsContainer": false,
+                "IsOpen": false,
+                "Storage": [
+
+                ]
             }
         ]
     }

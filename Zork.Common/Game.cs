@@ -61,8 +61,11 @@ namespace Zork.Common
                 { "SOUTH", new Command("SOUTH", new string[] { "SOUTH", "S" }, game => Move(game, Directions.SOUTH)) },
                 { "EAST", new Command("EAST", new string[] { "EAST", "E"}, game => Move(game, Directions.EAST)) },
                 { "WEST", new Command("WEST", new string[] { "WEST", "W" }, game => Move(game, Directions.WEST)) },
+                { "OPEN", new Command("OPEN", new string[] { "OPEN" }, Open) },
+                { "CLOSE", new Command("CLOSE", new string[] { "CLOSE" }, Close) },
                 { "TAKE", new Command("TAKE", new string[] { "TAKE" }, Take) },
                 { "DROP", new Command("DROP", new string[] { "DROP" }, Drop) },
+                { "PUT", new Command("PUT", new string[] { "PUT" }, Put) },
                 { "INVENTORY", new Command("INVENTORY", new string[] { "INVENTORY", "I" }, Inventory) },
             };
         }
@@ -98,8 +101,8 @@ namespace Zork.Common
                 Output.WriteLine($"Strewn around you can see;");
                 foreach (var item in Player.Location.Items)
                 {
-                    Output.WriteLine($"a {item.Key}");
-                    if (item.Key == "Mat") Output.Write(" that says 'Look at me!'");
+                    Output.Write($"a {item.Key}");
+                    if (item.Key == "Mat") Output.WriteLine(" that says 'Look at me!'");
                 }
                 Output.WriteLine("\nEnter HELP to see a list of commands and verbs.");
             }
@@ -174,14 +177,33 @@ namespace Zork.Common
                     bool foundItem = false;
                     foreach (var item in game.Player.Location.Items)
                     {
-                        NoMatch = false;
-                        if (command[2].Contains(item.Key.ToString().ToUpper()))
+                        // vv Container search vv
+                        if (item.Value.IsContainer == true)
                         {
-                            foundItem = true;
-                            game.Output.WriteLine($"{item.Value.Description}");
-                            break;
+                            if (item.Value.IsOpen == true)
+                            {
+                                foreach (var storedItem in item.Value.Storage)
+                                {
+                                    if (command[2].Contains(storedItem.Key.ToString().ToUpper()))
+                                    {
+                                        foundItem = true;
+                                        game.Output.WriteLine($"{storedItem.Value.Description}");
+                                        break;
+                                    }
+                                }
+                            }
                         }
-                        else NoMatch = true;
+                        NoMatch = false;
+                        if (foundItem == false)
+                        {
+                            if (command[2].Contains(item.Key.ToString().ToUpper()))
+                            {
+                                foundItem = true;
+                                game.Output.WriteLine($"{item.Value.Description}");
+                                break;
+                            }
+                            else NoMatch = true;
+                        }
                     }
                     // Search player's inventory for item 2nd, if it was not found in the room
                     if (foundItem == false)
@@ -201,7 +223,7 @@ namespace Zork.Common
                 }
                 else
                 {
-                    game.Output.WriteLine("'Look' or 'Look at [item name]' are valid loom commands.");
+                    game.Output.WriteLine("'Look' or 'Look at [item name]' are valid look commands.");
                     return;
                 }
             }
@@ -228,7 +250,6 @@ namespace Zork.Common
         {
             string[] command = game.inputString;
             bool NoMatch = false;
-
             if (command.Length == 1) game.Output.WriteLine("Enter the name of the item you want to take.");
 
             else if (command.Length > 1)
@@ -240,33 +261,50 @@ namespace Zork.Common
                     // Grab each item in the current room and check if it matches the item searched for.
                     foreach (var item in game.Player.Location.Items)
                     {
-                        // If the item was found to be in the room, check if it can be taken
-                        if (command[1].Contains(item.Key.ToString().ToUpper()))
+                        // vv Container search vv
+                        if (item.Value.IsContainer == true)
                         {
-                            if (item.Value.Takable == false)
+                            if (item.Value.IsOpen == true)
                             {
-                                game.Output.WriteLine("You can't take this!");
-                                return;
-                            }
-
-                            NoMatch = false;
-                            // iterate through the world's list of items to get the proper
-                            // matching item to add to the Player's inventory.
-                            for (int x = 0; x < game.World.Items.Count; x++)
-                            {
-                                if (command[1] == game.World.Items[x].Name.ToString().ToUpper())
+                                foreach (var storedItem in item.Value.Storage)
                                 {
-                                    game.Player.Items.Add(item.Key, item.Value);
-                                    break;
+                                    if (command[1].Contains(storedItem.Key.ToString().ToUpper()))
+                                    {
+                                        if (storedItem.Value.Takable == false)
+                                        {
+                                            game.Output.WriteLine("You can't take this!");
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            game.Player.Items.Add(storedItem.Key, storedItem.Value);
+                                            item.Value.Storage.Remove(storedItem.Key);
+                                            game.Output.WriteLine($"You took the {storedItem.Key} from the {item.Key}");
+                                            return;
+                                        }
+                                    }
                                 }
                             }
-                            // then remove the item from the Room's items' list and output response.
-                            game.Player.Location.Items.Remove(item.Key);
-                            game.Output.WriteLine($"You took the {item.Key}");
-                            break;
                         }
-                        else NoMatch = true;
-                    }
+                            // If the item was found to be in the room, check if it can be taken
+                            if (command[1].Contains(item.Key.ToString().ToUpper()))
+                            {
+                                if (item.Value.Takable == false)
+                                {
+                                    game.Output.WriteLine("You can't take this!");
+                                    return;
+                                }
+
+                                NoMatch = false;
+                                // Add the item to the player's inventory, then remove
+                                // the item from the Room's items' list and output response.
+                                game.Player.Items.Add(item.Key, item.Value);
+                                game.Player.Location.Items.Remove(item.Key);
+                                game.Output.WriteLine($"You took the {item.Key}");
+                                break;
+                            }
+                            else NoMatch = true;
+                        }
                     if (NoMatch == true)
                     {
                         game.Output.WriteLine("That item does not exist!");
@@ -315,6 +353,136 @@ namespace Zork.Common
             }
         }
 
+        private static void Put(Game game)
+        {
+            string[] command = game.inputString;
+            bool foundItem = false;
+            bool notFoundContainer = false;
+
+            if (command.Length == 1) game.Output.WriteLine("Enter 'PUT [item name] IN [target item name]");
+
+            if (command.Length == 4)
+            {
+                if (command[2] == "IN")
+                {
+                    foreach (var item in game.Player.Location.Items)
+                    {
+                        notFoundContainer = false;
+                        if (command[3] == item.Key.ToString().ToUpper())
+                        {
+                            if (item.Value.IsContainer == true)
+                            {
+                                if (item.Value.IsOpen == true)
+                                {
+                                    foreach (var playerItem in game.Player.Items)
+                                    {
+                                        if (command[1] == playerItem.Key.ToString().ToUpper())
+                                        {
+                                            game.Player.Items.Remove(playerItem.Key);
+                                            item.Value.Storage.Add(playerItem.Key, playerItem.Value);
+                                            game.Output.WriteLine($"You put the {playerItem.Key} into the {item.Key}");
+                                            return;
+                                        }
+                                    }
+                                    if (foundItem == false) game.Output.WriteLine($"You don't have such an item to put into the {item.Key}");
+                                }
+                                else game.Output.WriteLine("The container is closed!");
+                            }
+                            else game.Output.WriteLine("That item is not a container!");
+                        }
+                        else notFoundContainer = true;
+                    }
+                        if (notFoundContainer == true)
+                        {
+                            game.Output.WriteLine("That container does not exist!");
+                            return;
+                        }
+                }
+                else game.Output.WriteLine("PUT command requires 'IN' between subject and target item.");
+            }
+        }
+
+        private static void Open (Game game)
+        {
+            string[] command = game.inputString;
+            bool NoMatch = false;
+
+            if (command.Length == 1) game.Output.WriteLine("Enter the name of the item you want to open.");
+
+            if (command.Length > 1)
+            {
+                game.Player.Moves++;
+                foreach (var item in game.Player.Location.Items)
+                    if (command[1] == item.Key.ToString().ToUpper())
+                    {
+                        NoMatch = false;
+                        if (item.Value.IsContainer == true)
+                        {
+                            if (item.Value.IsOpen == true)
+                            {
+                                game.Output.WriteLine("That item is already open!");
+                                return;
+                            }
+                            else
+                            {
+                                item.Value.IsOpen = true;
+                                game.Output.WriteLine($"You open the {item.Key}");
+                                game.Output.Write($"Inside the {item.Key} you see a");
+                                foreach (var storedItem in item.Value.Storage)
+                                {
+                                    game.Output.WriteLine($" {storedItem.Key}");
+                                }
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            game.Output.WriteLine("That item is not a container!");
+                            return;
+                        }
+                    }
+                    else NoMatch = true;
+            }
+                    if (NoMatch == true) game.Output.WriteLine("That item doesn't exist!");
+        }
+
+        private static void Close(Game game)
+        {
+            string[] command = game.inputString;
+            bool NoMatch = false;
+            if (command.Length == 1) game.Output.WriteLine("Enter the name of the item you want to close.");
+            if (command.Length > 1)
+            {
+                    game.Player.Moves++;
+                    foreach (var item in game.Player.Location.Items)
+                        if (command[1] == item.Key.ToString().ToUpper())
+                        {
+                            NoMatch = false;
+                            if (item.Value.IsContainer == true)
+                            {
+                                if (item.Value.IsOpen == false)
+                                {
+                                    game.Output.WriteLine("That item is already closed!");
+                                    return;
+                                }
+                                else
+                                {
+                                    item.Value.IsOpen = false;
+                                    game.Output.WriteLine($"You close the {item.Key}");
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                game.Output.WriteLine("That item is not a container!");
+                                return;
+                            }
+                        }
+                        else NoMatch = true;
+            }
+                        if (NoMatch == true) game.Output.WriteLine("That item doesn't exist!");
+        }
+
         private static void Quit(Game game)
         {
             game.Output.Write("Thank you for playing!");
@@ -350,6 +518,14 @@ namespace Zork.Common
                 if (command.Key == "LOOK")
                 {
                     game.Output.WriteLine(" 'LOOK AT [item name]'\n");
+                }
+                else if (command.Key == "OPEN" || command.Key == "CLOSE")
+                {
+                    game.Output.WriteLine($" '{command.Key} [item name]'\n");
+                }
+                else if (command.Key == "PUT")
+                {
+                    game.Output.WriteLine($"'{command.Key} [subject item name] IN [target item name]'\n");
                 }
                 else game.Output.WriteLine("\n");
             }

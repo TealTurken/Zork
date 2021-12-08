@@ -38,6 +38,10 @@ namespace Zork.Common
                 room.UpdateNeighbors(this); // calls UpdateNeighbors function from Room class, line 44
                 room.UpdateItems(this);
             }
+            foreach (Item item in Items)
+            {
+                item.UpdateStorage(this);
+            }
 
 
         }

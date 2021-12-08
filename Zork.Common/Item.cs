@@ -18,6 +18,33 @@ namespace Zork.Common
 
         [JsonProperty(Order = 3)]
         public bool Takable { get; set; }
+        
+        [JsonProperty(Order = 4)]
+        public bool IsContainer { get; set; }
+        
+        [JsonProperty(Order = 5)]
+        public bool IsOpen { get; set; }
+
+        [JsonProperty(PropertyName = "Storage", Order = 6)]
+        private List<string> ItemsNames { get; set; }
+
+        [JsonIgnore]
+        public Dictionary<string, Item> Storage { get; private set; } = new Dictionary<string, Item>();
+
+        public void UpdateStorage(World world)
+        {
+            foreach (var entry in ItemsNames)
+            {
+                for (int x = 0; x < world.Items.Count; x++)
+                {
+                    if (entry == world.Items[x].Name.ToString())
+                    {
+                        Storage.Add(entry, world.Items[x]);
+                        break;
+                    }
+                }
+            }
+        }
 
         public static bool operator ==(Item lhs, Item rhs)
         {
