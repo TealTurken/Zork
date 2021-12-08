@@ -17,7 +17,7 @@ namespace Zork
         }
         public void Clear()
         {
-            throw new NotImplementedException();
+            Console.Clear();
         }
     }
 }

@@ -50,13 +50,14 @@
             },
             {
                 "Name": "Forest 1",
-                "LookName": "Forest",
                 "Description": "This is a forest, with trees in all directions around you.",
                 "Neighbors": {
                     "South": "Forest 3",
-                    "East": "West of House"
+                    "East": "West of House",
+                    "West": "Forest 2"
                 },
                 "Items": [
+                    "Signpost"
                 ]
             },
             {
@@ -64,7 +65,7 @@
                 "Description": "This is a dimly lit forest, with large trees all around. One particularly large tree with some low branches stands here.",
                 "Neighbors": {
                     "South": "Clearing",
-                    "East": "Clearing"
+                    "East": "Forest 1"
                 },
                 "Items": [
                 ]
@@ -73,10 +74,12 @@
                 "Name": "Forest 3",
                 "Description": "This is a dimly lit forest, with large trees all around. To the east, there appears to be sunlight.",
                 "Neighbors": {
-                    "North": "South of House",
-                    "East": "Clearing"
+                    "North": "Forest 1",
+                    "East": "Clearing",
+                    "West": "Forest 2"
                 },
                 "Items": [
+                    "Egg"
                 ]
             },
             {
@@ -87,13 +90,14 @@
                     "South": "Forest 3"
                 },
                 "Items": [
+                    "Sword"
                 ]
             }
         ],
         "Items": [
             {
                 "Name": "Leaflet",
-                "Description": "This is a leaflet.",
+                "Description": "A leaflet which says 'If you're expecting the full Zork experience, you expect too much!'.",
                 "Takable": true
             },
             {
@@ -103,7 +107,22 @@
             },
             {
                 "Name": "Mailbox",
-                "Description": "A simple mailbox",
+                "Description": "A simple wood mailbox staked to the ground. Weeds are grown all over it.",
+                "Takable": false
+            },
+            {
+                "Name": "Sword",
+                "Description": "A silver sword, looks very sharp.",
+                "Takable": true
+            },
+            {
+                "Name": "Egg",
+                "Description": "A small, spotted egg.",
+                "Takable": true
+            },
+            {
+                "Name": "Signpost",
+                "Description": "The lettering on this signpost is a little worn.\n'Zork house due east of here.'",
                 "Takable": false
             }
         ]

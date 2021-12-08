@@ -52,10 +52,11 @@ namespace Zork.Common
             Commands = new Dictionary<string, Command>()
             {
                 { "HELP", new Command("HELP", new string[] { "HELP" }, Help) },
-                { "QUIT", new Command("QUIT", new string[] { "QUIT", "Q", "BYE" }, Quit) },
-                { "LOOK", new Command("LOOK", new string[] { "LOOK", "L" }, Look) },
                 { "REWARD", new Command("REWARD", new string[] { "REWARD", "R", "ADD" }, Reward) },
                 { "SCORE", new Command("SCORE", new string[] { "SCORE", "POINTS", "P" }, Score) },
+                { "QUIT", new Command("QUIT", new string[] { "QUIT", "Q", "BYE" }, Quit) },
+                { "CLEAR", new Command("CLEAR", new string[] { "CLEAR" }, Clear) },
+                { "LOOK", new Command("LOOK", new string[] { "LOOK", "L" }, Look) },
                 { "NORTH", new Command("NORTH", new string[] { "NORTH", "N" }, game => Move(game, Directions.NORTH)) },
                 { "SOUTH", new Command("SOUTH", new string[] { "SOUTH", "S" }, game => Move(game, Directions.SOUTH)) },
                 { "EAST", new Command("EAST", new string[] { "EAST", "E"}, game => Move(game, Directions.EAST)) },
@@ -77,6 +78,7 @@ namespace Zork.Common
         {
             Game game = JsonConvert.DeserializeObject<Game>(gameFile);
             game.Player = game.World.SpawnPlayer(); // Spawn player after game file has deserialized, hence all required data is now present.
+            game.previousRoom = game.Player.Location;
             return game;
         }
 
@@ -97,6 +99,7 @@ namespace Zork.Common
                 foreach (var item in Player.Location.Items)
                 {
                     Output.WriteLine($"a {item.Key}");
+                    if (item.Key == "Mat") Output.Write(" that says 'Look at me!'");
                 }
                 Output.WriteLine("\nEnter HELP to see a list of commands and verbs.");
             }
@@ -123,6 +126,7 @@ namespace Zork.Common
             else Output.WriteLine("Unknown command.");
         }
 
+        #region Command functions
         private static void Move(Game game, Directions direction)
         {
             if (game.Player.Move(direction) == false) game.Output.WriteLine("The way is shut!");
@@ -136,17 +140,70 @@ namespace Zork.Common
 
         private static void Look(Game game)
         {
-            game.Output.WriteLine(game.Player.Location.ToString());
-            game.Output.WriteLine(game.Player.Location.Description);
-            game.Output.WriteLine("");
-            if (game.Player.Location.Items.Count != 0)
+            string[] command = game.inputString;
+
+            // Normal LOOK command
+            if (command.Length == 1)
             {
-                game.Output.WriteLine("Strewn around you can see;");
-                foreach (var item in game.Player.Location.Items)
-                {
-                    game.Output.WriteLine($"a {item.Key}");
-                }
+                game.Output.WriteLine(game.Player.Location.ToString());
+                game.Output.WriteLine(game.Player.Location.Description);
                 game.Output.WriteLine("");
+                if (game.Player.Location.Items.Count != 0)
+                {
+                    game.Output.WriteLine("Strewn around you can see;");
+                    foreach (var item in game.Player.Location.Items)
+                    {
+                        game.Output.WriteLine($"a {item.Key}");
+                    }
+                    game.Output.WriteLine("");
+                }
+            }
+
+            // LOOK AT command
+            else if (command.Length > 1)
+            {
+                bool NoMatch = false;
+                if (command[1] == "AT")
+                {
+                    if (command.Length <= 2)
+                    {
+                        game.Output.WriteLine("Enter the name of the item you want to look at.");
+                        return;
+                    }
+                    // Search room for the item 1st
+                    bool foundItem = false;
+                    foreach (var item in game.Player.Location.Items)
+                    {
+                        NoMatch = false;
+                        if (command[2].Contains(item.Key.ToString().ToUpper()))
+                        {
+                            foundItem = true;
+                            game.Output.WriteLine($"{item.Value.Description}");
+                            break;
+                        }
+                        else NoMatch = true;
+                    }
+                    // Search player's inventory for item 2nd, if it was not found in the room
+                    if (foundItem == false)
+                    {
+                        foreach (var item in game.Player.Items)
+                        {
+                            NoMatch = false;
+                            if (command[2].Contains(item.Key.ToString().ToUpper()))
+                            {
+                                game.Output.WriteLine($"{item.Value.Description}");
+                                break;
+                            }
+                            else NoMatch = true;
+                        }
+                    }
+                    if (NoMatch == true) game.Output.WriteLine("Enter a valid item name.");
+                }
+                else
+                {
+                    game.Output.WriteLine("'Look' or 'Look at [item name]' are valid loom commands.");
+                    return;
+                }
             }
             game.Player.Moves++;
         }
@@ -244,7 +301,7 @@ namespace Zork.Common
                                 }
                             }
                             game.Player.Location.Items.Add(item.Key, item.Value);
-                            game.Output.WriteLine($"You dropped a {item.Key}");
+                            game.Output.WriteLine($"You dropped the {item.Key}");
                             break;
                         }
                         else NoMatch = true;
@@ -275,17 +332,28 @@ namespace Zork.Common
             game.Output.WriteLine($"Your score is {game.Player.Score} points in {game.Player.Moves} moves.");
         }
 
+        private static void Clear(Game game)
+        {
+            game.Output.Clear();
+        }
+
         private static void Help(Game game)
         {
             foreach (var command in game.Commands)
             {
+            if (command.Key == "HELP") continue;
             game.Output.WriteLine($"--For {command.Key}--");
                 for (var x = 0; x < command.Value.Verbs.Length; x++)
                 {
                     game.Output.Write($" '{command.Value.Verbs[x]}'");
                 }
-            game.Output.WriteLine("\n");
+                if (command.Key == "LOOK")
+                {
+                    game.Output.WriteLine(" 'LOOK AT [item name]'\n");
+                }
+                else game.Output.WriteLine("\n");
             }
         }
+        #endregion command functions
     }
 }

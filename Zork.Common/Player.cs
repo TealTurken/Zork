@@ -91,7 +91,7 @@ namespace Zork.Common
             }
         }
 
-        public int ItemCap = 2;
+        public int ItemCap = 3;
 
         public Dictionary<string, Item> Items { get; private set; } = new Dictionary<string, Item>();
 

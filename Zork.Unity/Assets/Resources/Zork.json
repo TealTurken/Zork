@@ -9,7 +9,11 @@
                     "North": "North of House",
                     "South": "South of House",
                     "West": "Forest 1"
-                }
+                },
+                "Items": [
+                    "Mat",
+                    "Mailbox"
+                ]
             },
             {
                 "Name": "North of House",
@@ -18,7 +22,10 @@
                     "North": "Forest 2",
                     "East": "Behind House",
                     "West": "West of House"
-                }
+                },
+                "Items": [
+                    "Leaflet"
+                ]
             },
             {
                 "Name": "South of House",
@@ -26,7 +33,9 @@
                 "Neighbors": {
                     "East": "Behind House",
                     "West": "West of House"
-                }
+                },
+                "Items": [
+                ]
             },
             {
                 "Name": "Behind House",
@@ -35,32 +44,43 @@
                     "North": "North of House",
                     "East": "Clearing",
                     "South": "South of House"
-                }
+                },
+                "Items": [
+                ]
             },
             {
                 "Name": "Forest 1",
-                "LookName": "Forest",
                 "Description": "This is a forest, with trees in all directions around you.",
                 "Neighbors": {
                     "South": "Forest 3",
-                    "East": "West of House"
-                }
+                    "East": "West of House",
+                    "West": "Forest 2"
+                },
+                "Items": [
+                    "Signpost"
+                ]
             },
             {
                 "Name": "Forest 2",
                 "Description": "This is a dimly lit forest, with large trees all around. One particularly large tree with some low branches stands here.",
                 "Neighbors": {
                     "South": "Clearing",
-                    "East": "Clearing"
-                }
+                    "East": "Forest 1"
+                },
+                "Items": [
+                ]
             },
             {
                 "Name": "Forest 3",
                 "Description": "This is a dimly lit forest, with large trees all around. To the east, there appears to be sunlight.",
                 "Neighbors": {
-                    "North": "South of House",
-                    "East": "Clearing"
-                }
+                    "North": "Forest 1",
+                    "East": "Clearing",
+                    "West": "Forest 2"
+                },
+                "Items": [
+                    "Egg"
+                ]
             },
             {
                 "Name": "Clearing",
@@ -68,33 +88,42 @@
                 "Neighbors": {
                     "West": "Forest 2",
                     "South": "Forest 3"
-                }
+                },
+                "Items": [
+                    "Sword"
+                ]
             }
         ],
-        "Items": [ {
+        "Items": [
+            {
+                "Name": "Leaflet",
+                "Description": "A leaflet which says 'If you're expecting the full Zork experience, you expect too much!'.",
+                "Takable": true
+            },
+            {
+                "Name": "Mat",
+                "Description": "A welcome mat that says 'Welcome to Zork!'",
+                "Takable": true
+            },
+            {
                 "Name": "Mailbox",
-                "Description": "This is a mailbox",
-                "Can Take": false,
-                "IsContainer": true,
-                    "Container": { 
-                        "Capacity": 3,
-                        "Start Open": false,
-                        "Cotains": [
-                    ]
-                    },
-                "Limited Uses": false,
-                    "UsageLimit": {
-                        "#ofUses": 1,
-                        "New Item on Use": false,
-                        "GetItem": ""
-                    },
-                "Used On": [
-                ],
-                "Award Points": false,
-                    "Point rewarding": {
-                        "#ofPoints": 1,
-                        "Award On": ""
-                    }
+                "Description": "A simple wood mailbox staked to the ground. Weeds are grown all over it.",
+                "Takable": false
+            },
+            {
+                "Name": "Sword",
+                "Description": "A silver sword, looks very sharp.",
+                "Takable": true
+            },
+            {
+                "Name": "Egg",
+                "Description": "A small, spotted egg.",
+                "Takable": true
+            },
+            {
+                "Name": "Signpost",
+                "Description": "The lettering on this signpost is a little worn.\n'Zork house due east of here.'",
+                "Takable": false
             }
         ]
     }
